@@ -47,6 +47,8 @@ for link_letter in links_conf_per_letter:
 		main_content = soup.find_all('table')[2].find_all('div')[0]
 		#for child in main_content.children:
 		#	print child
+		#if "ICST" in main_content.contents:
+		#	print "Esta no site"
 		for cont in main_content.contents:
 			print cont
 		#print main_content.children[0]
