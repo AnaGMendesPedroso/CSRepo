@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import csv
 import sys
 
+""" Retorna uma lista de links para as conferencias e uma lista de links para conferencias que comecam com certa letra."""
 def get_links(html):
 	soup = BeautifulSoup(br.response().read(), "html5lib")
 
@@ -13,6 +14,7 @@ def get_links(html):
 
 	return links, links_conf_per_letter
 
+""" Recebe o nome de um arquivo e retorna uma lista com os editores que estao no arquivo."""
 def get_publishers(file):
 	f = open(file, 'r')
 	reader = csv.reader(f)
@@ -20,6 +22,17 @@ def get_publishers(file):
 	f.close()
 	return tmp_list
 
+def write_file(file, conference, publishers):
+	writer = csv.writer(file, delimiter=";")
+
+	row = []
+	row.append(conference)
+	for p in publishers:
+		row.append(p)
+	#row.append(publishers)
+	writer.writerow(row)
+
+""" Verifica se possui o numero correto de argumentos."""
 if len(sys.argv) != 2:
 	print "usage: python", sys.argv[0], "publishers_source"
 	exit()
@@ -34,7 +47,8 @@ links, links_conf_per_letter = get_links(br.response().read())
 
 count = 0
 publishers = get_publishers(sys.argv[1])
-#print publishers
+
+file_out = open("conferences_publisers.csv", "wb")
 
 for link_letter in links_conf_per_letter:
 	links = get_links(br.response().read())[0]
@@ -44,21 +58,31 @@ for link_letter in links_conf_per_letter:
 
 		#Testando 
 		soup = BeautifulSoup(br.response().read(), "html5lib")
-		main_content = soup.find_all('table')[2].find_all('div')[0]
-		#for child in main_content.children:
-		#	print child
-		#if "ICST" in main_content.contents:
-		#	print "Esta no site"
-		for cont in main_content.contents:
-			print cont
-		#print main_content.children[0]
-		exit()
+		main_table = soup.find_all('table')[2]
+		title = main_table.find_all('h2')[0].contents[0]
+
+		if len(main_table.find_all('div')) == 0:
+			content = '\t'.join(unicode(e) for e in main_table.contents)
+		else:
+			main_content = main_table.find_all('div')[0]
+			content = '\t'.join(unicode(e) for e in main_content.contents)
+
+		#content_list = content.split()
+		
+		list_publishers = []
+		for publisher in publishers:
+			if publisher in content:
+				list_publishers.append(publisher)
+
+		if " published " in content:
+			count += 1
+		
+		write_file(file_out, title, list_publishers)
 		#Testando
 
-
-		print br.title()
+		print title
 		br.back()
-		count += 1
+	
 	br.follow_link(url=link_letter['href'])
 
 print count
