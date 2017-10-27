@@ -1,5 +1,6 @@
-import mechanize
+from __future__ import division
 from bs4 import BeautifulSoup
+import mechanize
 import csv
 import sys
 
@@ -32,6 +33,15 @@ def write_file(file, conference, publishers):
 	#row.append(publishers)
 	writer.writerow(row)
 
+def write_statistics(count, publisher_counter):
+	file_out = open("publishers_statistics.csv", "wb")
+
+	writer = csv.writer(file_out, delimiter=";")
+
+	for key, value in publisher_counter.items():
+		percentage = (value*100) / count
+		writer.writerow([key, value, str(percentage)+"%"])
+
 """ Verifica se possui o numero correto de argumentos."""
 if len(sys.argv) != 2:
 	print "usage: python", sys.argv[0], "publishers_source"
@@ -50,13 +60,17 @@ publishers = get_publishers(sys.argv[1])
 
 file_out = open("conferences_publisers.csv", "wb")
 
+publisher_counter = {}
+
+for publisher in publishers:
+	publisher_counter[publisher] = 0
+
 for link_letter in links_conf_per_letter:
 	links = get_links(br.response().read())[0]
 	for link in links:
 		link = link['href'].replace(" ", "%20")
 		br.follow_link(url=link)
 
-		#Testando 
 		soup = BeautifulSoup(br.response().read(), "html5lib")
 		main_table = soup.find_all('table')[2]
 		title = main_table.find_all('h2')[0].contents[0]
@@ -67,22 +81,21 @@ for link_letter in links_conf_per_letter:
 			main_content = main_table.find_all('div')[0]
 			content = '\t'.join(unicode(e) for e in main_content.contents)
 
-		#content_list = content.split()
-		
 		list_publishers = []
 		for publisher in publishers:
 			if publisher in content:
 				list_publishers.append(publisher)
-
-		if " published " in content:
-			count += 1
+				publisher_counter[publisher] += 1
+				count += 1
 		
 		write_file(file_out, title, list_publishers)
-		#Testando
 
 		print title
 		br.back()
 	
 	br.follow_link(url=link_letter['href'])
 
+write_statistics(count, publisher_counter)
+
 print count
+print publisher_counter
