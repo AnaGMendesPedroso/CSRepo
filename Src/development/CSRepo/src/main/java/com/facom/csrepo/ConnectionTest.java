@@ -5,16 +5,22 @@
  */
 package com.facom.csrepo;
 
-import com.facom.csrepo.Model.ConnectionFactory;
+import com.facom.csrepo.model.ConferenceDao;
+import com.facom.csrepo.model.ConnectionFactory;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  *
  * @author jose
  */
 public class ConnectionTest {
-    public static void main(String[] args){
+    public static void main(String[] args) throws SQLException{
         Connection con = new ConnectionFactory().getConnection();
+        
+        ConferenceDao dao = new ConferenceDao();
+        
+        System.out.println(dao.buscarNome("est").getName());
         
         if(con != null){
             System.out.println("Conectado");

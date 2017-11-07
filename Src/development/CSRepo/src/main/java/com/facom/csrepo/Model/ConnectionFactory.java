@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.facom.csrepo.Model;
+package com.facom.csrepo.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

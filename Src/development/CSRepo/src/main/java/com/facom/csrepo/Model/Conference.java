@@ -3,19 +3,38 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.facom.csrepo.Model;
+package com.facom.csrepo.model;
 
 /**
  *
  * @author jose
  */
 public class Conference {
-    public String acronym;
-    public String name;
+    private Long id;
+    private String acronym;
+    private String name;
+    
+    public Conference(){
+        
+    }
     
     public Conference(String acronym, String name){
         this.acronym = acronym;
         this.name = name;
+    }
+    
+    public Conference(Long id, String acronym, String name){
+        this.id = id;
+        this.acronym = acronym;
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAcronym() {
