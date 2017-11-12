@@ -20,7 +20,7 @@ public class ConnectionTest {
         
         ConferenceDao dao = new ConferenceDao();
         
-        System.out.println(dao.buscarNome("est").getName());
+        System.out.println(dao.searchName("est").getName());
         
         if(con != null){
             System.out.println("Conectado");

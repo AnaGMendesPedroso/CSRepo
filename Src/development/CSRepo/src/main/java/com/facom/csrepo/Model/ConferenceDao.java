@@ -23,8 +23,8 @@ public class ConferenceDao {
         connection = new ConnectionFactory().getConnection();
     }
     
-    public List<Conference> buscar() throws SQLException{
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Conference");
+    public List<Conference> search() throws SQLException{
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM \"Conference\"");
         ResultSet rs = stmt.executeQuery();
         
         List<Conference> listConferences = new ArrayList<>();
@@ -41,8 +41,9 @@ public class ConferenceDao {
         return listConferences;
     }
     
-    public Conference buscarNome(String name) throws SQLException{
-        String sql = "SELECT * FROM \"Conference\" WHERE \"name_Conference\" LIKE '%" + name + "%'";
+    public Conference searchName(String name) throws SQLException{
+        String sql = "SELECT * FROM \"Conference\" WHERE \"name_Conference\" ILIKE '%" + name +
+                "%' ORDER BY \"name_Conference\"";
         PreparedStatement stmt = connection.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
         
