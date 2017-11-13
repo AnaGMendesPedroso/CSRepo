@@ -19,8 +19,11 @@ public class ConnectionFactory {
     
     public Connection getConnection(){
         try {
+            Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection("jdbc:postgresql://localhost:5432/csrepo", "score", "csrepo2018");
         } catch (SQLException ex) {
+            Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
