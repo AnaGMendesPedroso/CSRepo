@@ -3,21 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.facom.csrepo.ws;
+package com.facom.csrepo.controller.service;
 
 import com.facom.csrepo.model.Conference;
-import com.facom.csrepo.model.ConferenceDao;
+import com.facom.csrepo.model.dao.ConferenceDao;
 import com.google.gson.Gson;
 import java.sql.SQLException;
 import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -38,19 +40,22 @@ public class CSRepoWebService {
     }
 
     /**
-     * Retrieves representation of an instance of com.facom.csrepo.ws.CSRepoWebService
+     * Retrieves representation of an instance of com.facom.csrepo.service.CSRepoWebService
      * @return an instance of java.lang.String
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("Paper/{name}")
-    public String getPaper(@PathParam("name") String name) {
-        return "Paper " + name;
+    @Path("paper")
+    public String getPaper(@QueryParam("title") String title,
+                            @QueryParam("conference") String conference,
+                            @QueryParam("author") List<String> authors,
+                            @QueryParam("year") Integer year){
+        return "Paper " + title + "\nConference: " + conference + "\nYear: " + year + "\nIds: " + authors;
     }
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("Conference/get/{name}")
+    @Path("conference/get/{name}")
     public String getConference(@PathParam("name") String name) throws SQLException{
         
         ConferenceDao dao = new ConferenceDao();
@@ -62,7 +67,7 @@ public class CSRepoWebService {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("Conference/list")
+    @Path("conference/list")
     public String listConference() throws SQLException{
         ConferenceDao dao = new ConferenceDao();
         List<Conference> listConferences = dao.search();

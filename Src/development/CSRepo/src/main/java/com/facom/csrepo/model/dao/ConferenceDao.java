@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.facom.csrepo.model;
+package com.facom.csrepo.model.dao;
 
+import com.facom.csrepo.model.Conference;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

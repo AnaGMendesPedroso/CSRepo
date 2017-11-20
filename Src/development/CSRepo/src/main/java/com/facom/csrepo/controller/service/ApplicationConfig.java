@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.facom.csrepo.ws;
+package com.facom.csrepo.controller.service;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -29,7 +29,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(com.facom.csrepo.ws.CSRepoWebService.class);
+        resources.add(com.facom.csrepo.controller.service.CSRepoWebService.class);
     }
     
 }

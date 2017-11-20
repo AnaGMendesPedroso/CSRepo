@@ -5,8 +5,8 @@
  */
 package com.facom.csrepo;
 
-import com.facom.csrepo.model.ConferenceDao;
-import com.facom.csrepo.model.ConnectionFactory;
+import com.facom.csrepo.model.dao.ConferenceDao;
+import com.facom.csrepo.model.dao.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 
