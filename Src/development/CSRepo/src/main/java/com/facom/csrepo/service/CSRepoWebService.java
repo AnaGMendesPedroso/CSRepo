@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.facom.csrepo.controller.service;
+package com.facom.csrepo.service;
 
 import com.facom.csrepo.model.Conference;
 import com.facom.csrepo.model.dao.ConferenceDao;
