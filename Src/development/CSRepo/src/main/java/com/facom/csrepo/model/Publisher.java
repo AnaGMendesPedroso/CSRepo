@@ -18,7 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,46 +28,54 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author jose
  */
 @Entity
-@Table(name = "Conference")
+@Table(name = "Publisher")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Conference.findAll", query = "SELECT c FROM Conference c")
-    , @NamedQuery(name = "Conference.findByid", query = "SELECT c FROM Conference c WHERE c.id = :id")
-    , @NamedQuery(name = "Conference.findByacronym", query = "SELECT c FROM Conference c WHERE c.acronym = :acronym")
-    , @NamedQuery(name = "Conference.findByname", query = "SELECT c FROM Conference c WHERE c.name = :name")})
-public class Conference implements Serializable {
+    @NamedQuery(name = "Publisher.findAll", query = "SELECT p FROM Publisher p")
+    , @NamedQuery(name = "Publisher.findByid", query = "SELECT p FROM Publisher p WHERE p.id = :id")
+    , @NamedQuery(name = "Publisher.findBylink", query = "SELECT p FROM Publisher p WHERE p.link = :link")
+    , @NamedQuery(name = "Publisher.findByname", query = "SELECT p FROM Publisher p WHERE p.name = :name")
+    , @NamedQuery(name = "Publisher.findByacronym", query = "SELECT p FROM Publisher p WHERE p.acronym = :acronym")})
+public class Publisher implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_Conference")
+    @Column(name = "id_Publisher")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "acronym_Conference")
-    private String acronym;
+    @Size(min = 1, max = 255)
+    @Column(name = "link_Publisher")
+    private String link;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "name_Conference")
+    @Column(name = "name_Publisher")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conference")
-    @JoinColumn(name = "id_Conference")
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
+    @Column(name = "acronym_Publisher")
+    private String acronym;
+    //TODO: Test cascade
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publisher")
+    @JoinColumn(name = "id_Publisher")
     private List<Edition> editions;
 
-    public Conference() {
+    public Publisher() {
     }
 
-    public Conference(Integer id) {
+    public Publisher(Integer id) {
         this.id = id;
     }
 
-    public Conference(Integer id, String acronym, String name) {
+    public Publisher(Integer id, String link, String name, String acronym) {
         this.id = id;
-        this.acronym = acronym;
+        this.link = link;
         this.name = name;
+        this.acronym = acronym;
     }
 
     public Integer getId() {
@@ -79,12 +86,12 @@ public class Conference implements Serializable {
         this.id = id;
     }
 
-    public String getAcronym() {
-        return acronym;
+    public String getLink() {
+        return link;
     }
 
-    public void setAcronym(String acronym) {
-        this.acronym = acronym;
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public String getName() {
@@ -95,8 +102,14 @@ public class Conference implements Serializable {
         this.name = name;
     }
 
-    // TODO: Create method to add edition from list
-    // TODO: Create method to remove edition from list
+    public String getAcronym() {
+        return acronym;
+    }
+
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
+    }
+
     public List<Edition> getEditions() {
         return editions;
     }
@@ -115,10 +128,10 @@ public class Conference implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Conference)) {
+        if (!(object instanceof Publisher)) {
             return false;
         }
-        Conference other = (Conference) object;
+        Publisher other = (Publisher) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -127,7 +140,7 @@ public class Conference implements Serializable {
 
     @Override
     public String toString() {
-        return "com.facom.csrepo.model.Conference[ id=" + id + " ]";
+        return "com.facom.csrepo.model.Publisher[ id=" + id + " ]";
     }
     
 }
