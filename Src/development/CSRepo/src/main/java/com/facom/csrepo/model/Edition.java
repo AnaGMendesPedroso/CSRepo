@@ -15,13 +15,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -29,46 +29,43 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author jose
  */
 @Entity
-@Table(name = "Conference")
+@Table(name = "Edition")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Conference.findAll", query = "SELECT c FROM Conference c")
-    , @NamedQuery(name = "Conference.findByid", query = "SELECT c FROM Conference c WHERE c.id = :id")
-    , @NamedQuery(name = "Conference.findByacronym", query = "SELECT c FROM Conference c WHERE c.acronym = :acronym")
-    , @NamedQuery(name = "Conference.findByname", query = "SELECT c FROM Conference c WHERE c.name = :name")})
-public class Conference implements Serializable {
+    @NamedQuery(name = "Edition.findAll", query = "SELECT e FROM Edition e")
+    , @NamedQuery(name = "Edition.findByid", query = "SELECT e FROM Edition e WHERE e.id = :id")
+    , @NamedQuery(name = "Edition.findByyear", query = "SELECT e FROM Edition e WHERE e.year = :year")})
+public class Edition implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_Conference")
+    @Column(name = "id_Edition")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "acronym_Conference")
-    private String acronym;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "name_Conference")
-    private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conference")
-    @JoinColumn(name = "id_Conference")
-    private List<Edition> editions;
+    @Column(name = "year_Edition")
+    private int year;
+    
+    @ManyToOne
+    private Conference conference;
+    @ManyToOne
+    private Publisher publisher;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "edition")
+    @JoinColumn(name = "id_Edition")
+    private List<Paper> papers;
 
-    public Conference() {
+    public Edition() {
     }
 
-    public Conference(Integer id) {
+    public Edition(Integer id) {
         this.id = id;
     }
 
-    public Conference(Integer id, String acronym, String name) {
+    public Edition(Integer id, int year) {
         this.id = id;
-        this.acronym = acronym;
-        this.name = name;
+        this.year = year;
     }
 
     public Integer getId() {
@@ -79,30 +76,36 @@ public class Conference implements Serializable {
         this.id = id;
     }
 
-    public String getAcronym() {
-        return acronym;
+    public int getYear() {
+        return year;
     }
 
-    public void setAcronym(String acronym) {
-        this.acronym = acronym;
+    public void setYear(int year) {
+        this.year = year;
     }
 
-    public String getName() {
-        return name;
+    public List<Paper> getPapers() {
+        return papers;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPapers(List<Paper> papers) {
+        this.papers = papers;
     }
 
-    // TODO: Create method to add edition from list
-    // TODO: Create method to remove edition from list
-    public List<Edition> getEditions() {
-        return editions;
+    public Conference getConference() {
+        return conference;
     }
 
-    public void setEditions(List<Edition> editions) {
-        this.editions = editions;
+    public void setConference(Conference conference) {
+        this.conference = conference;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 
     @Override
@@ -115,10 +118,10 @@ public class Conference implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Conference)) {
+        if (!(object instanceof Edition)) {
             return false;
         }
-        Conference other = (Conference) object;
+        Edition other = (Edition) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -127,7 +130,7 @@ public class Conference implements Serializable {
 
     @Override
     public String toString() {
-        return "com.facom.csrepo.model.Conference[ id=" + id + " ]";
+        return "com.facom.csrepo.model.Edition[ id=" + id + " ]";
     }
     
 }

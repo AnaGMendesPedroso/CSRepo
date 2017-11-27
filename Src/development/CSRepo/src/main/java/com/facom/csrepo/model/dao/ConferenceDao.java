@@ -32,7 +32,7 @@ public class ConferenceDao {
         
         while(rs.next()){
             Conference conf = new Conference();
-            conf.setId(rs.getLong("id_Conference"));
+            conf.setId(rs.getInt("id_Conference"));
             conf.setAcronym(rs.getString("acronym_Conference"));
             conf.setName(rs.getString("name_Conference"));
             
@@ -50,7 +50,7 @@ public class ConferenceDao {
         
         rs.next();
         Conference conf = new Conference();
-        conf.setId(rs.getLong("id_Conference"));
+        conf.setId(rs.getInt("id_Conference"));
         conf.setAcronym(rs.getString("acronym_Conference"));
         conf.setName(rs.getString("name_Conference"));
         
