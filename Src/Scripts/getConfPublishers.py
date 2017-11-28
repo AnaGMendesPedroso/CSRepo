@@ -42,6 +42,16 @@ def write_statistics(count, publisher_counter):
 		percentage = (value*100) / count
 		writer.writerow([key, value, str(percentage)+"%"])
 
+def write_conferences_from_publiser(conferences, name_file):
+	file_out = open(name_file, "wb")
+
+	writer = csv.writer(file_out, delimiter=";")
+
+	for conference in conferences:
+		c = []
+		c.append(conference)
+		writer.writerow(c)
+
 """ Verifica se possui o numero correto de argumentos."""
 if len(sys.argv) != 2:
 	print "usage: python", sys.argv[0], "publishers_source"
@@ -61,6 +71,7 @@ publishers = get_publishers(sys.argv[1])
 file_out = open("conferences_publisers.csv", "wb")
 
 publisher_counter = {}
+conferences = []
 
 for publisher in publishers:
 	publisher_counter[publisher] = 0
@@ -87,15 +98,19 @@ for link_letter in links_conf_per_letter:
 				list_publishers.append(publisher)
 				publisher_counter[publisher] += 1
 				count += 1
+
+		if "IEEE" in list_publishers:
+			conferences.append(title)
 		
-		write_file(file_out, title, list_publishers)
+		#write_file(file_out, title, list_publishers)
 
 		print title
 		br.back()
 	
 	br.follow_link(url=link_letter['href'])
 
-write_statistics(count, publisher_counter)
+#write_statistics(count, publisher_counter)
+write_conferences_from_publiser(conferences, "conferencesIEEE.txt")
 
 print count
 print publisher_counter

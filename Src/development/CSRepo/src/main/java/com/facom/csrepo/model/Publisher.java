@@ -60,7 +60,7 @@ public class Publisher implements Serializable {
     @Column(name = "acronym_Publisher")
     private String acronym;
     //TODO: Test cascade
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publisher")
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_Publisher")
     private List<Edition> editions;
 

@@ -13,7 +13,6 @@ import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -41,6 +40,10 @@ public class CSRepoWebService {
 
     /**
      * Retrieves representation of an instance of com.facom.csrepo.service.CSRepoWebService
+     * @param title
+     * @param authors
+     * @param conference
+     * @param year
      * @return an instance of java.lang.String
      */
     @GET
@@ -58,22 +61,41 @@ public class CSRepoWebService {
     @Path("conference/get/{name}")
     public String getConference(@PathParam("name") String name) throws SQLException{
         
-        ConferenceDao dao = new ConferenceDao();
-        Conference conf = dao.searchName(name);
-        
-        Gson gson = new Gson();
-        return gson.toJson(conf);
+//        ConferenceDao dao = new ConferenceDao();
+//        Conference conf = dao.searchName(name);
+//        
+//        Gson gson = new Gson();
+//        return gson.toJson(conf);
+        return null;
     }
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("conference/list")
     public String listConference() throws SQLException{
+        
         ConferenceDao dao = new ConferenceDao();
-        List<Conference> listConferences = dao.search();
+        dao.openCurrentSession();
+        List<Conference> listConferences = dao.findAll();
+        dao.closeCurrentSession();
+        //List<Conference> listConferences = dao.search();
         
         Gson gson = new Gson();
         return gson.toJson(listConferences);
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("conference/insert")
+    public String insertConference(@QueryParam("acronym") String acronym,
+                                    @QueryParam("name") String name) throws SQLException{
+        
+        ConferenceDao dao = new ConferenceDao();
+        dao.openCurrentSessionWithTransaction();
+        dao.persist(new Conference(acronym, name));
+        dao.closeCurrenteSessionWithTransaction();
+        
+        return "";
     }
 
     /**

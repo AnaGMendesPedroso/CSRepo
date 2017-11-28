@@ -18,7 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -40,23 +40,24 @@ public class Conference implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "id_conference_seq", sequenceName = "\"Conference_id_Conference_seq\"", allocationSize = 1)
+    @GeneratedValue(generator = "id_conference_seq")
     @Basic(optional = false)
-    @Column(name = "id_Conference")
+    @Column(name = "\"id_Conference\"")
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "acronym_Conference")
+    @Column(name = "\"acronym_Conference\"")
     private String acronym;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "name_Conference")
+    @Column(name = "\"name_Conference\"")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conference")
-    @JoinColumn(name = "id_Conference")
-    private List<Edition> editions;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "id_Conference")
+//    private List<Edition> editions;
 
     public Conference() {
     }
@@ -65,8 +66,7 @@ public class Conference implements Serializable {
         this.id = id;
     }
 
-    public Conference(Integer id, String acronym, String name) {
-        this.id = id;
+    public Conference(String acronym, String name) {
         this.acronym = acronym;
         this.name = name;
     }
@@ -97,13 +97,13 @@ public class Conference implements Serializable {
 
     // TODO: Create method to add edition from list
     // TODO: Create method to remove edition from list
-    public List<Edition> getEditions() {
-        return editions;
-    }
-
-    public void setEditions(List<Edition> editions) {
-        this.editions = editions;
-    }
+//    public List<Edition> getEditions() {
+//        return editions;
+//    }
+//
+//    public void setEditions(List<Edition> editions) {
+//        this.editions = editions;
+//    }
 
     @Override
     public int hashCode() {

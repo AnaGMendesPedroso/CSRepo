@@ -19,7 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -52,7 +51,7 @@ public class Edition implements Serializable {
     private Conference conference;
     @ManyToOne
     private Publisher publisher;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "edition")
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_Edition")
     private List<Paper> papers;
 
