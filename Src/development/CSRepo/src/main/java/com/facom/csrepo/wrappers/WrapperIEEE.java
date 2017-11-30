@@ -1,6 +1,5 @@
 package com.facom.csrepo.wrappers;
 
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -13,6 +12,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.EditorKit;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -21,14 +22,40 @@ import javax.swing.text.html.HTMLEditorKit;
 public class WrapperIEEE {
 
     public static void main(String[] args) {
-        String text1 = "http://ieeexploreapi.ieee.org/api/v1/search/articles?publication_title=";
-        String text2 = "format=json&apikey=xsgdpynaaxuxtwummncmbbxs";
+        //String text1 = "http://ieeexploreapi.ieee.org/api/v1/search/articles?publication_title=";
+        //String text2 = "format=json&apikey=xsgdpynaaxuxtwummncmbbxs";
         
-        String text = getText("http://ieeexploreapi.ieee.org/api/v1/search/articles?publication_title=ICSE&max_records=5000&format=json&apikey=xsgdpynaaxuxtwummncmbbxs");
-        //Converter para Gson
-        //Gson g = new Gson();
-        //text = g.toJson(text);
-        System.out.println(text);
+        String text = getText("http://ieeexploreapi.ieee.org/api/v1/search/articles?publication_title=ICSE-SEET&max_records=30&format=json&apikey=xsgdpynaaxuxtwummncmbbxs");
+        //System.out.println("TEXTO:" + text);
+
+        //konvertierung in ein Json-Objekt
+        JSONObject resultSearch = new JSONObject(text);
+        String test = resultSearch.getString("articles");
+               
+        System.out.println("SUAHDSUAHUDAUSHD");
+        System.out.println(resultSearch);
+                
+        //JSONArray articles = resultSearch.getJSONArray("articles");
+        
+        //getMetadata(resultSearch, articles);
+    }
+    
+    public static void getMetadata(JSONObject resultSearch, JSONArray articles){
+        //System.out.println("RESULTADO"+ text);
+        //text = json.toString();
+        int totalRecords = resultSearch.getInt("total_records");
+        //String title = articles.ge
+        System.out.println(totalRecords);
+        
+        //declarando atributos dos metadados de um paper
+        String blabla, paperTitle, nameConference, paperAuthor;
+        int yearPublication;
+        //for (int i = 0; i < totalRecords; i++) {
+            //resultSearch = articles.toJSONObject(articles);
+                    //resultSearch.getString("title");
+            //System.out.println(resultSearch);
+        //}
+        
     }
     
     public static String getText(String uriStr) {
@@ -39,7 +66,6 @@ public class WrapperIEEE {
                     return new HTMLEditorKit.ParserCallback() {
                         public void handleText(char[] data, int pos) {
                             buf.append(data);
-                            buf.append('\n');
                         }
                     };
                 }
@@ -55,11 +81,8 @@ public class WrapperIEEE {
         } catch (IOException e) {
         }
         // Return the text found
-        String result = buf.toString();
-        Gson g = new Gson();
-        result = g.toJson(result);
-        //g = result;
-        return result;
+        return buf.toString();
+    
     }
 
 }
