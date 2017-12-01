@@ -46,24 +46,24 @@ public class WrapperIEEE {
         
         // total of papers returned from IEEE API
         int totalPapers = resultSearch.getInt("total_records");
-        System.out.println(totalPapers);
+        System.out.println("Total papers: " + totalPapers + "\n");
         
         return papers;
     }
     
     public static void buildMetadata(JSONArray papers){
         //declarando atributos dos metadados de um paper
-        String paperTitle, nameConference, paperAuthor;
-        int yearPublication;
+        String paperTitle, firstPage, lastPage;
+        int yearPublication, pages;
         
         for (int i=0; i<papers.length(); i++) {
-            System.out.println("PAPER" + (i+1) + ": " + papers.getJSONObject(i).getString("title"));
+            paperTitle = papers.getJSONObject(i).getString("title");
+            firstPage = papers.getJSONObject(i).getString("start_page");
+            lastPage = papers.getJSONObject(i).getString("end_page");
+            System.out.println("PAPER" + (i+1) + ": " + paperTitle);
+            System.out.println("firstPage: " + firstPage + " | lastPage: " + lastPage);
+            
         }
-        //for (int i = 0; i < totalPapers; i++) {
-            //resultSearch = articles.toJSONObject(articles);
-                    //resultSearch.getString("title");
-            //System.out.println(resultSearch);
-        //}
     }
     
     public static String getPapers(String uriStr) {
