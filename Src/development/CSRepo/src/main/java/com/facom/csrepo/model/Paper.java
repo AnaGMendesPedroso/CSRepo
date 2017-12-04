@@ -84,8 +84,7 @@ public class Paper implements Serializable {
         this.id = id;
     }
 
-    public Paper(Integer id, String title, int pages, int yearPublication, int firstPage, int lastPage) {
-        this.id = id;
+    public Paper(String title, int pages, int yearPublication, int firstPage, int lastPage) {
         this.title = title;
         this.pages = pages;
         this.yearPublication = yearPublication;
