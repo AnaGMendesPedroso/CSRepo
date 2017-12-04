@@ -40,11 +40,11 @@ public class Edition implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_Edition")
+    @Column(name = "id_edition")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "year_Edition")
+    @Column(name = "year_edition")
     private int year;
     
     @ManyToOne
@@ -52,7 +52,7 @@ public class Edition implements Serializable {
     @ManyToOne
     private Publisher publisher;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_Edition")
+    @JoinColumn(name = "id_edition")
     private List<Paper> papers;
 
     public Edition() {

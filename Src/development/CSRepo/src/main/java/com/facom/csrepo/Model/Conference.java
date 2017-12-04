@@ -6,18 +6,13 @@
 package com.facom.csrepo.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -40,21 +35,21 @@ public class Conference implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name = "id_conference_seq", sequenceName = "\"Conference_id_Conference_seq\"", allocationSize = 1)
+    @SequenceGenerator(name = "id_conference_seq", sequenceName = "conference_id_conference_seq", allocationSize = 1)
     @GeneratedValue(generator = "id_conference_seq")
     @Basic(optional = false)
-    @Column(name = "\"id_Conference\"")
+    @Column(name = "id_conference")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "\"acronym_Conference\"")
+    @Size(min = 1, max = 30)
+    @Column(name = "acronym_conference")
     private String acronym;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "\"name_Conference\"")
-    private String name;
+    @Column(name = "name_conference")
+    public String name;
 //    @OneToMany(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "id_Conference")
 //    private List<Edition> editions;
