@@ -42,26 +42,26 @@ public class Publisher implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_Publisher")
+    @Column(name = "id_publisher")
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "link_Publisher")
+    @Column(name = "link_publisher")
     private String link;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "name_Publisher")
+    @Column(name = "name_publisher")
     private String name;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "acronym_Publisher")
+    @Column(name = "acronym_publisher")
     private String acronym;
     //TODO: Test cascade
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_Publisher")
+    @JoinColumn(name = "id_publisher")
     private List<Edition> editions;
 
     public Publisher() {

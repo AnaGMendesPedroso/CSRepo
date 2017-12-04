@@ -61,12 +61,14 @@ public class CSRepoWebService {
     @Path("conference/get/{name}")
     public String getConference(@PathParam("name") String name) throws SQLException{
         
-//        ConferenceDao dao = new ConferenceDao();
-//        Conference conf = dao.searchName(name);
-//        
-//        Gson gson = new Gson();
-//        return gson.toJson(conf);
-        return null;
+        ConferenceDao dao = new ConferenceDao();
+        dao.openCurrentSession();
+        List<Conference> confs = dao.findByName(name);
+        dao.closeCurrentSession();
+        
+        Gson gson = new Gson();
+        return gson.toJson(confs);
+//        return null;
     }
     
     @GET
@@ -92,7 +94,7 @@ public class CSRepoWebService {
         
         ConferenceDao dao = new ConferenceDao();
         dao.openCurrentSessionWithTransaction();
-        dao.persist(new Conference(acronym, name));
+        dao.insert(new Conference(acronym, name));
         dao.closeCurrenteSessionWithTransaction();
         
         return "";
