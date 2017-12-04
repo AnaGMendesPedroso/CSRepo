@@ -42,7 +42,7 @@ public class Conference implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 30)
     @Column(name = "acronym_conference")
     private String acronym;
     @Basic(optional = false)

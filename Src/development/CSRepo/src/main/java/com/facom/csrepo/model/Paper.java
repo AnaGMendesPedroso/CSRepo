@@ -20,7 +20,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -47,32 +46,40 @@ public class Paper implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_Paper")
+    @Column(name = "id_paper")
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "title_Paper")
+    @Column(name = "title_paper")
     private String title;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "pages_Paper")
+    @Column(name = "pages_paper")
     private int pages;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "year_Publication_Paper")
+    @Column(name = "year_Publication_paper")
     private int yearPublication;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "first_Page_Paper")
+    @Column(name = "first_Page_paper")
     private int firstPage;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "last_Page_Paper")
+    @Column(name = "last_Page_paper")
     private int lastPage;
     
     @ManyToOne
     private Edition edition;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_conference")
+    private Conference conference;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_publisher")
+    private Publisher publisher;
     
     @ManyToMany(mappedBy="papers", cascade=CascadeType.MERGE)
     private List<Author> authors = new ArrayList<>();

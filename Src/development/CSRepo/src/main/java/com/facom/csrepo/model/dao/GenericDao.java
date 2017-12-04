@@ -71,14 +71,13 @@ public abstract class GenericDao<T> {
 
     public abstract void insert(T t);
     
-    public abstract void deleteById(Integer id);
-    
     public abstract void delete(T t);
     
-    public abstract T findById(Integer id);
-    
-    public abstract T findByName(String name);
+    public abstract void deleteById(Integer id);
     
     public abstract List<T> findAll();
     
+    public abstract T findById(Integer id);
+    
+    public abstract List<T> findByName(String name);    
 }

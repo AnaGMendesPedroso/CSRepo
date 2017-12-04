@@ -21,13 +21,13 @@ public class ConferenceDao extends GenericDao<Conference>{
     }
 
     @Override
-    public void deleteById(Integer id) {
-        Conference conference = findById(id);
+    public void delete(Conference conference) {
         getCurrentSession().delete(conference);
     }
-
+    
     @Override
-    public void delete(Conference conference) {
+    public void deleteById(Integer id) {
+        Conference conference = findById(id);
         getCurrentSession().delete(conference);
     }
     
@@ -46,11 +46,10 @@ public class ConferenceDao extends GenericDao<Conference>{
     }
     
     @Override
-    public Conference findByName(String name){
-        
+    public List<Conference> findByName(String name){
         Query query = getCurrentSession().createQuery("FROM Conference WHERE lower(name) LIKE lower(:name)");
-        Conference conference = (Conference)query.setParameter("name", "%" + name + "%").list().get(0);
+        List<Conference> conferences = query.setParameter("name", "%" + name + "%").list();
         
-        return conference;
+        return conferences;
     }
 }

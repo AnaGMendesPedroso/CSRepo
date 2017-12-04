@@ -42,12 +42,12 @@ public class Author implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_Author")
+    @Column(name = "id_author")
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "name_Author")
+    @Column(name = "name_author")
     private String name;
     
     @ManyToMany(cascade=CascadeType.ALL)

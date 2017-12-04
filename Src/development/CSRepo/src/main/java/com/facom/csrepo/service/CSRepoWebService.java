@@ -63,11 +63,11 @@ public class CSRepoWebService {
         
         ConferenceDao dao = new ConferenceDao();
         dao.openCurrentSession();
-        Conference conf = dao.findByName(name);
+        List<Conference> confs = dao.findByName(name);
         dao.closeCurrentSession();
         
         Gson gson = new Gson();
-        return gson.toJson(conf);
+        return gson.toJson(confs);
 //        return null;
     }
     
