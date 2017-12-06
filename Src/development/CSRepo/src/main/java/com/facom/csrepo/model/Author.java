@@ -56,15 +56,9 @@ public class Author implements Serializable {
             inverseJoinColumns={@JoinColumn(name="id_Paper")})
     private List<Paper> papers = new ArrayList<>();
 
-    public Author() {
-    }
+    public Author(){}
 
-    public Author(Integer id) {
-        this.id = id;
-    }
-
-    public Author(Integer id, String name) {
-        this.id = id;
+    public Author(String name) {
         this.name = name;
     }
 
@@ -90,6 +84,10 @@ public class Author implements Serializable {
 
     public void setPapers(List<Paper> papers) {
         this.papers = papers;
+    }
+    
+    public void addPaper(Paper paper){
+        this.papers.add(paper);
     }
 
     @Override

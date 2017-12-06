@@ -17,38 +17,50 @@ public class ConferenceDao extends GenericDao<Conference>{
 
     @Override
     public void insert(Conference conference){
-        getCurrentSession().persist(conference);
+        openCurrentSessionWithTransaction();
+        getCurrentSession().save(conference);
+        closeCurrenteSessionWithTransaction();
     }
 
     @Override
     public void delete(Conference conference) {
+        openCurrentSessionWithTransaction();
         getCurrentSession().delete(conference);
+        closeCurrenteSessionWithTransaction();
     }
     
     @Override
     public void deleteById(Integer id) {
         Conference conference = findById(id);
+        openCurrentSessionWithTransaction();
         getCurrentSession().delete(conference);
+        closeCurrenteSessionWithTransaction();
     }
     
     @Override
     public List<Conference> findAll() {
+        openCurrentSession();
         List<Conference> conferences = getCurrentSession().createQuery("FROM Conference").list();
+        closeCurrentSession();
         return conferences;
     }
 
     @Override
     public Conference findById(Integer id) {
+        openCurrentSession();
         Query query = getCurrentSession().createQuery("FROM Conference WHERE id_Conference = :id");
         Conference conference = (Conference)query.setParameter("id", id).list().get(0);
+        closeCurrentSession();
         
         return conference;
     }
     
     @Override
     public List<Conference> findByName(String name){
+        openCurrentSession();
         Query query = getCurrentSession().createQuery("FROM Conference WHERE lower(name) LIKE lower(:name)");
         List<Conference> conferences = query.setParameter("name", "%" + name + "%").list();
+        closeCurrentSession();
         
         return conferences;
     }

@@ -49,18 +49,13 @@ public class Conference implements Serializable {
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "name_conference")
-    public String name;
+    private String name;
 //    @OneToMany(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "id_Conference")
 //    private List<Edition> editions;
 
-    public Conference() {
-    }
-
-    public Conference(Integer id) {
-        this.id = id;
-    }
-
+    public Conference() {}
+    
     public Conference(String acronym, String name) {
         this.acronym = acronym;
         this.name = name;
@@ -89,16 +84,6 @@ public class Conference implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-    // TODO: Create method to add edition from list
-    // TODO: Create method to remove edition from list
-//    public List<Edition> getEditions() {
-//        return editions;
-//    }
-//
-//    public void setEditions(List<Edition> editions) {
-//        this.editions = editions;
-//    }
 
     @Override
     public int hashCode() {

@@ -64,15 +64,9 @@ public class Publisher implements Serializable {
     @JoinColumn(name = "id_publisher")
     private List<Edition> editions;
 
-    public Publisher() {
-    }
+    public Publisher(){}
 
-    public Publisher(Integer id) {
-        this.id = id;
-    }
-
-    public Publisher(Integer id, String link, String name, String acronym) {
-        this.id = id;
+    public Publisher(String link, String name, String acronym) {
         this.link = link;
         this.name = name;
         this.acronym = acronym;
