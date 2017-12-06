@@ -84,12 +84,7 @@ public class Paper implements Serializable {
     @ManyToMany(mappedBy="papers", cascade=CascadeType.MERGE)
     private List<Author> authors = new ArrayList<>();
 
-    public Paper() {
-    }
-
-    public Paper(Integer id) {
-        this.id = id;
-    }
+    public Paper(){}
 
     public Paper(String title, int pages, int yearPublication, int firstPage, int lastPage) {
         this.title = title;
@@ -161,6 +156,10 @@ public class Paper implements Serializable {
 
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
+    }
+    
+    public void addAuthor(Author author){
+        this.authors.add(author);
     }
 
     @Override

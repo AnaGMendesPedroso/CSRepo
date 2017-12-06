@@ -18,38 +18,50 @@ public class EditionDao extends GenericDao<Edition>{
     
     @Override
     public void insert(Edition edition){
-        getCurrentSession().persist(edition);
+        openCurrentSessionWithTransaction();
+        getCurrentSession().save(edition);
+        closeCurrenteSessionWithTransaction();
     }
     
     @Override
     public void delete(Edition edition) {
+        openCurrentSessionWithTransaction();
         getCurrentSession().delete(edition);
+        closeCurrenteSessionWithTransaction();
     }
 
     @Override
     public void deleteById(Integer id) {
         Edition edition = findById(id);
+        openCurrentSessionWithTransaction();
         getCurrentSession().delete(edition);
+        closeCurrenteSessionWithTransaction();
     }
     
     @Override
     public List<Edition> findAll() {
+        openCurrentSession();
         List<Edition> editions = getCurrentSession().createQuery("FROM Edition").list();
+        closeCurrentSession();
         return editions;
     }
 
     @Override
     public Edition findById(Integer id) {
+        openCurrentSession();
         Query query = getCurrentSession().createQuery("FROM Edition WHERE id = :id");
         Edition edition = (Edition)query.setParameter("id", id).list().get(0);
+        closeCurrentSession();
         
         return edition;
     }
 
     @Override
     public List<Edition> findByName(String name) {
+        openCurrentSession();
         Query query = getCurrentSession().createQuery("FROM Edition WHERE name = :name");
         List<Edition> editions = query.setParameter("name", name).list();
+        closeCurrentSession();
         
         return editions;
     }
