@@ -55,15 +55,9 @@ public class Edition implements Serializable {
     @JoinColumn(name = "id_edition")
     private List<Paper> papers;
 
-    public Edition() {
-    }
+    public Edition(){}
 
-    public Edition(Integer id) {
-        this.id = id;
-    }
-
-    public Edition(Integer id, int year) {
-        this.id = id;
+    public Edition(int year){
         this.year = year;
     }
 
@@ -89,6 +83,10 @@ public class Edition implements Serializable {
 
     public void setPapers(List<Paper> papers) {
         this.papers = papers;
+    }
+    
+    public void addPaper(Paper paper){
+        this.papers.add(paper);
     }
 
     public Conference getConference() {
