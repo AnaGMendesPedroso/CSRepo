@@ -39,8 +39,23 @@ public class WrapperIEEE {
     }
 
     public static JSONArray searchConference() {
+        String search = "http://ieeexploreapi.ieee.org/api/v1/search/articles?publication_title="
+                + "$name$AND$acronym$&publication_year=$year$&max_records=1000&format=json&apikey=$apiKey$";
+        String name, acronym, year, apiKey;
+        name = "International Conference on Software Engineering";
+        acronym = "ICSE";
+        year = "2017";
+        apiKey = "xsgdpynaaxuxtwummncmbbxs";
+        
+        search.replaceAll("\\$name\\$", name);
+        search.replaceAll("\\$acronym\\$", acronym);
+        search.replaceAll("\\$year\\$", year);
+        search.replaceAll("\\$apiKey\\$", apiKey);
+        System.out.println(search);
+        System.out.println("KKKKKKKKKKK");
+        
         // search a conference in the IEE API and returns a string contents in Json format
-        String searchConference = getPapers("http://ieeexploreapi.ieee.org/api/v1/search/articles?publication_title=ICSE-SEET&max_records=5000&format=json&apikey=xsgdpynaaxuxtwummncmbbxs");
+        String searchConference = getPapers(search);
 
         // converting "getPapers" from String to Json object
         JSONObject resultSearch = new JSONObject(searchConference);
@@ -77,7 +92,7 @@ public class WrapperIEEE {
                 //pega no título de publicação apenas o ano
                 yearPublication = Integer.parseInt(year.split(" ")[0]);
 
-                //Paper paper = new Paper(paperTitle, pages, yearPublication, firstPage, lastPage);
+                Paper paper = new Paper(paperTitle, pages, yearPublication, firstPage, lastPage);
                 //insertPaperDB(paper);
                 
                 System.out.println("PAPER " + cont + ": " + paperTitle);
@@ -87,10 +102,11 @@ public class WrapperIEEE {
                 
                 nameAuthor = new ArrayList<>();
                 for (int j = 0; j < authors.length(); j++) {
-                    //nameAuthor.add(new Author(authors.getJSONObject(j).getString("full_name")));
+                    nameAuthor.add(new Author(authors.getJSONObject(j).getString("full_name")));
+                    System.out.println("Authors: " + nameAuthor.get(j).getName());
+            
                 }
                 //insertAuthorDB(nameAuthor);
-                //System.out.println("Authors: " + nameAuthor);
             } catch (Exception e) {
             }
         }
@@ -98,17 +114,13 @@ public class WrapperIEEE {
 
     public static void insertPaperDB(Paper paper) {
             PaperDao paperDao = new PaperDao();
-            paperDao.openCurrentSessionWithTransaction();
             paperDao.insert(paper);
-            paperDao.closeCurrenteSessionWithTransaction();
     }
     
     public static void insertAuthorDB(List<Author> authors) {
+        AuthorDao dao = new AuthorDao();
         for (int i = 0; i < authors.size(); i++) {
-            AuthorDao dao = new AuthorDao();
-            dao.openCurrentSessionWithTransaction();
             dao.insert(authors.get(i));
-            dao.closeCurrenteSessionWithTransaction();
         }
     }
 

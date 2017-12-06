@@ -62,10 +62,6 @@ public class Author implements Serializable {
         this.name = name;
     }
     
-    public Author(String name) {
-        this.name = name;
-    }
-
     public Integer getId() {
         return id;
     }
