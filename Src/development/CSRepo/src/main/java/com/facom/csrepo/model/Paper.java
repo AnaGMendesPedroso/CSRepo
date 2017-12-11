@@ -150,6 +150,24 @@ public class Paper implements Serializable {
         this.edition = edition;
     }
 
+    public Conference getConference() {
+        return conference;
+    }
+
+    public void setConference(Conference conference) {
+        this.conference = conference;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+    
+    
+
     public List<Author> getAuthors() {
         return authors;
     }
