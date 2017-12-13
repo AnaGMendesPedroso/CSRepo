@@ -53,6 +53,7 @@ public class WrapperIEEE {
         search = search.replaceAll("\\$acronym\\$", acronym);
         search = search.replaceAll("\\$year\\$", year);
         search = search.replaceAll("\\$apiKey\\$", apiKey);
+        search = search.replaceAll(" ", "%20");
         System.out.println(search);
 
         // search a conference in the IEE API and returns a string contents in Json format
@@ -87,7 +88,7 @@ public class WrapperIEEE {
                 Element element = (Element) node;
                 //get title
                 paperTitle = element.getElementsByTagName("title").item(0).getTextContent();
-                paperTitle.replaceAll("&#x0022;", "\"");
+                paperTitle = paperTitle.replaceAll("&#x0022;", "\"");
                 //get pages
                 firstPage = Integer.parseInt(element.getElementsByTagName("start_page").item(0).getTextContent());
                 lastPage = Integer.parseInt(element.getElementsByTagName("end_page").item(0).getTextContent());
@@ -98,7 +99,7 @@ public class WrapperIEEE {
                 //insert data on DB
                 paper = new Paper(paperTitle, pages, publicationYear, firstPage, lastPage);
                 ConferenceDao conference = new ConferenceDao();
-                paper.setConference(conference.findById(200));
+                //paper.setConference(conference.findById(200));
                 insertPaperDB(paper);
 
                 //get authors

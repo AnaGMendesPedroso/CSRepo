@@ -165,8 +165,6 @@ public class Paper implements Serializable {
     public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
     }
-    
-    
 
     public List<Author> getAuthors() {
         return authors;

@@ -18,7 +18,7 @@ public class PaperDao extends GenericDao<Paper>{
     @Override
     public void insert(Paper paper) {
         openCurrentSessionWithTransaction();
-        getCurrentSession().save(paper);
+        getCurrentSession().persist(paper);
         closeCurrenteSessionWithTransaction();
     }
     
