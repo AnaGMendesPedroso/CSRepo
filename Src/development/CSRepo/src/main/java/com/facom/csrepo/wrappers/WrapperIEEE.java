@@ -42,39 +42,35 @@ public class WrapperIEEE {
 
     public static NodeList searchConference() {
         String search = "http://ieeexploreapi.ieee.org/api/v1/search/articles?publication_title="
-                + "$name$AND$acronym$&publication_year=$year$&max_records=1000&format=json&apikey=$apiKey$";
+                + "NAMEANDACRONYM&publication_year=YEAR&max_records=1000&format=xml&apikey=APIKEY";
         String name, acronym, year, apiKey;
-        name = "International Conference on Software Engineering";
-        acronym = "ICSE";
+        name = "\"International Conference on Software Engineering\"";
+        acronym = "\"ICSE\"";
         year = "2017";
         apiKey = "xsgdpynaaxuxtwummncmbbxs";
 
-        search = search.replaceAll("\\$name\\$", name);
-        search = search.replaceAll("\\$acronym\\$", acronym);
-        search = search.replaceAll("\\$year\\$", year);
-        search = search.replaceAll("\\$apiKey\\$", apiKey);
+        search = search.replaceAll("NAME", name);
+        search = search.replaceAll("ACRONYM", acronym);
+        search = search.replaceAll("YEAR", year);
+        search = search.replaceAll("APIKEY", apiKey);
         search = search.replaceAll(" ", "%20");
         System.out.println(search);
 
         // search a conference in the IEE API and returns a string contents in Json format
-        //String searchConference = getPapers(search);
-        Document document = getPapers("http://ieeexploreapi.ieee.org/api/v1/search/articles?publication_title=ICSE-SEET&max_records=1000&format=xml&apikey=xsgdpynaaxuxtwummncmbbxs");
-        //Document document = getPapers(search);
-        Element total = (Element) document.getElementsByTagName("articles").item(0);
-        System.out.println(total.getElementsByTagName("totalfound").item(0).getTextContent());
-        NodeList papers = document.getElementsByTagName("article");
-
+        Document searchConference = getPapers(search);
+        Element total = (Element) searchConference.getElementsByTagName("articles").item(0);
         // total of records returned from IEEE API
-//        int totalRecords = resultSearch.getInt("total_records");
-//        System.out.println("Total records: " + totalRecords + "\n");
+        System.out.println(total.getElementsByTagName("totalfound").item(0).getTextContent());
+        NodeList papers = searchConference.getElementsByTagName("article");
+
         return papers;
     }
 
     public static void buildMetadata(NodeList papers) {
         //declarando atributos dos metadados de um paper
         Paper paper;
-        NodeList authors;
         String paperTitle, year;
+        NodeList authors;
         List<Author> nameAuthor;
         int publicationYear, firstPage, lastPage, pages;
         int cont = 0;
@@ -99,8 +95,8 @@ public class WrapperIEEE {
                 //insert data on DB
                 paper = new Paper(paperTitle, pages, publicationYear, firstPage, lastPage);
                 ConferenceDao conference = new ConferenceDao();
-                //paper.setConference(conference.findById(200));
-                insertPaperDB(paper);
+//                //paper.setConference(conference.findById(200));
+//                insertPaperDB(paper);
 
                 //get authors
                 authors = element.getElementsByTagName("authors");
@@ -111,7 +107,7 @@ public class WrapperIEEE {
                     nameAuthor.add(new Author(name));
                     System.out.println("Authors: " + nameAuthor.get(j).getName());
                 }
-                insertAuthorDB(nameAuthor);
+//                insertAuthorDB(nameAuthor);
 
             } catch (Exception e) {
             }
