@@ -10,7 +10,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,12 +36,26 @@ public class WrapperIEEE {
     }
 
     public static void main(String[] args) {
-        // method that returns papers from a searched conference
+        update();
+    }
+    
+    public static void update() {
+        Calendar scheduleUpdate = Calendar.getInstance();
+        scheduleUpdate.set(Calendar.MONTH, scheduleUpdate.get(Calendar.MONTH)+1);
+        scheduleUpdate.set(Calendar.DAY_OF_MONTH, 1);
+        scheduleUpdate.set(Calendar.HOUR, 0);
+        scheduleUpdate.set(Calendar.MINUTE, 0);
+        scheduleUpdate.set(Calendar.SECOND, 0);
+        System.out.println(scheduleUpdate.getTime());
+        Date data = scheduleUpdate.getTime();
+        UpdateWrapper reminder = new UpdateWrapper(data);
+        
+            // method that returns papers from a searched conference
         NodeList papers = searchConference();
 
         // method that builds metadata for each paper
         buildMetadata(papers);
-    }
+     }
 
     public static NodeList searchConference() {
         String search = "http://ieeexploreapi.ieee.org/api/v1/search/articles?publication_title="
