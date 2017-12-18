@@ -20,14 +20,14 @@ public class AuthorDao extends GenericDao<Author>{
     public void insert(Author author) {
         openCurrentSessionWithTransaction();
         getCurrentSession().save(author);
-        closeCurrenteSessionWithTransaction();
+        closeCurrentSessionWithTransaction();
     }
     
     @Override
     public void delete(Author author){
         openCurrentSessionWithTransaction();
         getCurrentSession().delete(author);
-        closeCurrenteSessionWithTransaction();
+        closeCurrentSessionWithTransaction();
     }
 
     @Override
@@ -35,7 +35,14 @@ public class AuthorDao extends GenericDao<Author>{
         Author author = findById(id);
         openCurrentSessionWithTransaction();
         getCurrentSession().delete(author);
-        closeCurrenteSessionWithTransaction();
+        closeCurrentSessionWithTransaction();
+    }
+    
+    @Override
+    public void update(Author author) {
+        openCurrentSessionWithTransaction();
+        getCurrentSession().update(author);
+        closeCurrentSessionWithTransaction();
     }
     
     @Override

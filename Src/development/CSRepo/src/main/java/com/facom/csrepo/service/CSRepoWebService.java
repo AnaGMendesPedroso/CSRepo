@@ -93,7 +93,7 @@ public class CSRepoWebService {
         ConferenceDao dao = new ConferenceDao();
         dao.openCurrentSessionWithTransaction();
         dao.insert(new Conference(acronym, name));
-        dao.closeCurrenteSessionWithTransaction();
+        dao.closeCurrentSessionWithTransaction();
         
         return "";
     }

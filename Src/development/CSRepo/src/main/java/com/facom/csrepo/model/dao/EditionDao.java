@@ -20,14 +20,14 @@ public class EditionDao extends GenericDao<Edition>{
     public void insert(Edition edition){
         openCurrentSessionWithTransaction();
         getCurrentSession().save(edition);
-        closeCurrenteSessionWithTransaction();
+        closeCurrentSessionWithTransaction();
     }
     
     @Override
     public void delete(Edition edition) {
         openCurrentSessionWithTransaction();
         getCurrentSession().delete(edition);
-        closeCurrenteSessionWithTransaction();
+        closeCurrentSessionWithTransaction();
     }
 
     @Override
@@ -35,7 +35,14 @@ public class EditionDao extends GenericDao<Edition>{
         Edition edition = findById(id);
         openCurrentSessionWithTransaction();
         getCurrentSession().delete(edition);
-        closeCurrenteSessionWithTransaction();
+        closeCurrentSessionWithTransaction();
+    }
+    
+    @Override
+    public void update(Edition edition) {
+        openCurrentSessionWithTransaction();
+        getCurrentSession().update(edition);
+        closeCurrentSessionWithTransaction();
     }
     
     @Override
