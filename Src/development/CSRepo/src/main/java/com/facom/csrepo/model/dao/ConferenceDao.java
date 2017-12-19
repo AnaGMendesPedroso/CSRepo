@@ -19,14 +19,14 @@ public class ConferenceDao extends GenericDao<Conference>{
     public void insert(Conference conference){
         openCurrentSessionWithTransaction();
         getCurrentSession().save(conference);
-        closeCurrenteSessionWithTransaction();
+        closeCurrentSessionWithTransaction();
     }
 
     @Override
     public void delete(Conference conference) {
         openCurrentSessionWithTransaction();
         getCurrentSession().delete(conference);
-        closeCurrenteSessionWithTransaction();
+        closeCurrentSessionWithTransaction();
     }
     
     @Override
@@ -34,7 +34,14 @@ public class ConferenceDao extends GenericDao<Conference>{
         Conference conference = findById(id);
         openCurrentSessionWithTransaction();
         getCurrentSession().delete(conference);
-        closeCurrenteSessionWithTransaction();
+        closeCurrentSessionWithTransaction();
+    }
+    
+    @Override
+    public void update(Conference conference) {
+        openCurrentSessionWithTransaction();
+        getCurrentSession().update(conference);
+        closeCurrentSessionWithTransaction();
     }
     
     @Override
