@@ -18,9 +18,9 @@ public class AuthorDao extends GenericDao<Author>{
 
     @Override
     public void insert(Author author) {
-        openCurrentSessionWithTransaction();
+//        openCurrentSessionWithTransaction();
         getCurrentSession().save(author);
-        closeCurrentSessionWithTransaction();
+//        closeCurrentSessionWithTransaction();
     }
     
     @Override
@@ -40,9 +40,9 @@ public class AuthorDao extends GenericDao<Author>{
     
     @Override
     public void update(Author author) {
-        openCurrentSessionWithTransaction();
+//        openCurrentSessionWithTransaction();
         getCurrentSession().update(author);
-        closeCurrentSessionWithTransaction();
+//        closeCurrentSessionWithTransaction();
     }
     
     @Override
@@ -65,10 +65,10 @@ public class AuthorDao extends GenericDao<Author>{
 
     @Override
     public List<Author> findByName(String name) {
-        openCurrentSession();
+//        openCurrentSession();
         Query query = getCurrentSession().createQuery("FROM Author WHERE name = :name");
         List<Author> authors = query.setParameter("name", name).list();
-        closeCurrentSession();
+//        closeCurrentSession();
         
         return authors;
     }

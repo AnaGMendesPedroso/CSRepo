@@ -10,7 +10,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,15 +30,16 @@ import org.xml.sax.SAXException;
  * @author Renato Gouvea
  */
 public class WrapperIEEE {
+    
+    AuthorDao authorDao;
 
-    public WrapperIEEE() {
-    }
-
-    public static void main(String[] args) {
+    public WrapperIEEE(){
+        authorDao = new AuthorDao();
+        authorDao.openCurrentSessionWithTransaction();
         update();
     }
     
-    public static void update() {
+    public void update() {
         Calendar scheduleUpdate = Calendar.getInstance();
         scheduleUpdate.set(Calendar.MONTH, scheduleUpdate.get(Calendar.MONTH)+1);
         scheduleUpdate.set(Calendar.DAY_OF_MONTH, 1);
@@ -57,7 +57,7 @@ public class WrapperIEEE {
         buildMetadata(papers);
      }
 
-    public static NodeList searchConference() {
+    public NodeList searchConference() {
         String search = "http://ieeexploreapi.ieee.org/api/v1/search/articles?publication_title="
                 + "NAMEANDACRONYM&publication_year=YEAR&max_records=1000&format=xml&apikey=APIKEY";
         String name, acronym, year, apiKey;
@@ -83,12 +83,12 @@ public class WrapperIEEE {
         return papers;
     }
 
-    public static void buildMetadata(NodeList papers) {
+    public void buildMetadata(NodeList papers) {
         //declarando atributos dos metadados de um paper
         Paper paper;
         String paperTitle, year;
         NodeList authors;
-        List<Author> nameAuthor;
+        List<Author> listAuthor;
         int publicationYear, firstPage, lastPage, pages;
         int cont = 0;
 
@@ -118,32 +118,47 @@ public class WrapperIEEE {
                 //get authors
                 authors = element.getElementsByTagName("authors");
                 authors = ((Element) authors.item(0)).getElementsByTagName("author");
-                nameAuthor = new ArrayList<>();
+                listAuthor = new ArrayList<>();
+                Author author;
                 for (int j = 0; j < authors.getLength(); j++) {
                     String name = ((Element) authors.item(j)).getElementsByTagName("full_name").item(0).getTextContent();
-                    nameAuthor.add(new Author(name));
-                    System.out.println("Authors: " + nameAuthor.get(j).getName());
+                    author = new Author(name);
+                    listAuthor.add(author);
+                    System.out.println("Authors: " + listAuthor.get(j).getName());
                 }
-//                insertAuthorDB(nameAuthor);
+                insertAuthorDB(listAuthor, paper);
 
             } catch (Exception e) {
             }
         }
+        authorDao.closeCurrentSessionWithTransaction();
     }
 
-    public static void insertPaperDB(Paper paper) {
+    public void insertPaperDB(Paper paper) {
         PaperDao paperDao = new PaperDao();
         paperDao.insert(paper);
     }
 
-    public static void insertAuthorDB(List<Author> authors) {
-        AuthorDao dao = new AuthorDao();
+    public void insertAuthorDB(List<Author> authors, Paper paper) {
+        Author author;
         for (int i = 0; i < authors.size(); i++) {
-            dao.insert(authors.get(i));
+            List<Author> tmpAuthors = authorDao.findByName(authors.get(i).getName());
+            //boolean newAuthor = authorDao.findByName(authors.get(i).getName()).isEmpty();
+            
+            if(tmpAuthors.isEmpty()){
+                author = authors.get(i);
+                author.addPaper(paper);
+                authorDao.insert(author);
+            }else{
+                author = tmpAuthors.get(0);
+                author.addPaper(paper);
+                authorDao.update(author);
+//                authorDao.update(authors.get(i));
+            }
         }
     }
 
-    public static Document getPapers(String uriStr) {
+    public Document getPapers(String uriStr) {
         try {
             URL url = new URL(uriStr);
 
