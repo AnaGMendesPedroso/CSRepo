@@ -51,6 +51,7 @@ public class Edition implements Serializable {
     private Conference conference;
     @ManyToOne
     private Publisher publisher;
+    
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_edition")
     private List<Paper> papers;
