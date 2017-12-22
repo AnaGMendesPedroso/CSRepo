@@ -12,4 +12,10 @@
         <servlet-name>jersey-serlvet</servlet-name>
         <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
+    
+    <listener>
+        <listener-class>
+            com.facom.csrepo.service.ServletListener
+        </listener-class>
+    </listener>
 </web-app>

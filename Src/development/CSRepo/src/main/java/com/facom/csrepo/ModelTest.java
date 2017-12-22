@@ -48,7 +48,7 @@ public class ModelTest {
         List<Edition> listEditions = new ArrayList<>();
         listEditions.add(edition);
         
-        paper.setEdition(edition);
+        //paper.setEdition(edition);
         paper.setAuthors(listAuthor);
         author.setPapers(listPapers);
         //conf.setEditions(listEditions);

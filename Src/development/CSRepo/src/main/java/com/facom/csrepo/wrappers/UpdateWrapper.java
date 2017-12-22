@@ -24,8 +24,10 @@ public class UpdateWrapper {
 
     class RemindTask extends TimerTask {
 
+        @Override
         public void run() {
             System.out.println("YYYYYYYYYYYYYYYYY");
+            WrapperIEEE wIEEE = new WrapperIEEE();
             timer.cancel(); //Terminate the timer thread
         }
     }

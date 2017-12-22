@@ -55,9 +55,9 @@ public class Conference implements Serializable {
     @Column(name = "name_conference")
     private String name;
     
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_conference")
-    private List<Edition> editions;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "id_conference")
+//    private List<Edition> editions;
 
     public Conference() {}
     
