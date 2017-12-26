@@ -19,14 +19,14 @@ public class PaperDao extends GenericDao<Paper>{
     public void insert(Paper paper) {
         openCurrentSessionWithTransaction();
         getCurrentSession().save(paper);
-        closeCurrenteSessionWithTransaction();
+        closeCurrentSessionWithTransaction();
     }
     
     @Override
     public void delete(Paper paper) {
         openCurrentSessionWithTransaction();
         getCurrentSession().delete(paper);
-        closeCurrenteSessionWithTransaction();
+        closeCurrentSessionWithTransaction();
     }
 
     @Override
@@ -34,7 +34,14 @@ public class PaperDao extends GenericDao<Paper>{
         Paper paper = findById(id);
         openCurrentSessionWithTransaction();
         getCurrentSession().delete(paper);
-        closeCurrenteSessionWithTransaction();
+        closeCurrentSessionWithTransaction();
+    }
+    
+    @Override
+    public void update(Paper paper) {
+        openCurrentSessionWithTransaction();
+        getCurrentSession().update(paper);
+        closeCurrentSessionWithTransaction();
     }
     
     @Override

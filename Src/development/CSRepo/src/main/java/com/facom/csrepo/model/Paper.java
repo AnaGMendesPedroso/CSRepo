@@ -70,18 +70,18 @@ public class Paper implements Serializable {
     @Column(name = "last_Page_paper")
     private int lastPage;
     
-    @ManyToOne
-    private Edition edition;
+//    @ManyToOne
+//    private Edition edition;
     
     @ManyToOne
-    @JoinColumn(name = "id_conference")
+    @JoinColumn(name = "conference_paper")
     private Conference conference;
     
     @ManyToOne
-    @JoinColumn(name = "id_publisher")
+    @JoinColumn(name = "publisher_paper")
     private Publisher publisher;
     
-    @ManyToMany(mappedBy="papers", cascade=CascadeType.MERGE)
+    @ManyToMany(mappedBy="papers", cascade=CascadeType.ALL)
     private List<Author> authors = new ArrayList<>();
 
     public Paper(){}
@@ -142,12 +142,28 @@ public class Paper implements Serializable {
         this.lastPage = lastPage;
     }
 
-    public Edition getEdition() {
-        return edition;
+//    public Edition getEdition() {
+//        return edition;
+//    }
+//
+//    public void setEdition(Edition edition) {
+//        this.edition = edition;
+//    }
+
+    public Conference getConference() {
+        return conference;
     }
 
-    public void setEdition(Edition edition) {
-        this.edition = edition;
+    public void setConference(Conference conference) {
+        this.conference = conference;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 
     public List<Author> getAuthors() {

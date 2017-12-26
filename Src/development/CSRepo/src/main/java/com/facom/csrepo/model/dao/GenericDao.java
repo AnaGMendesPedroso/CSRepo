@@ -39,13 +39,13 @@ public abstract class GenericDao<T> {
         currentSession.close();
     }
     
-    public void closeCurrenteSessionWithTransaction(){
+    public void closeCurrentSessionWithTransaction(){
         currentTransaction.commit();
         currentSession.close();
     }
     
     private static SessionFactory getSessionFactory(){
-        Configuration config = new Configuration().configure();
+        Configuration config = new Configuration().configure("hibernate.cfg.xml");
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(config.getProperties());
         
         SessionFactory sessionFactory = config.buildSessionFactory(builder.build());
@@ -72,6 +72,8 @@ public abstract class GenericDao<T> {
     public abstract void insert(T t);
     
     public abstract void delete(T t);
+    
+    public abstract void update(T t);
     
     public abstract void deleteById(Integer id);
     

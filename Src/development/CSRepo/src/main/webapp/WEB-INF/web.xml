@@ -12,4 +12,10 @@
         <servlet-name>jersey-serlvet</servlet-name>
         <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>WrapperStarter</servlet-name>
+        <servlet-class>com.facom.csrepo.service.WrapperStarter</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 </web-app>

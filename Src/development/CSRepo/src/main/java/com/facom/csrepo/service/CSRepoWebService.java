@@ -77,9 +77,7 @@ public class CSRepoWebService {
     public String listConference() throws SQLException{
         
         ConferenceDao dao = new ConferenceDao();
-        dao.openCurrentSession();
         List<Conference> listConferences = dao.findAll();
-        dao.closeCurrentSession();
         //List<Conference> listConferences = dao.search();
         
         Gson gson = new Gson();
@@ -95,7 +93,7 @@ public class CSRepoWebService {
         ConferenceDao dao = new ConferenceDao();
         dao.openCurrentSessionWithTransaction();
         dao.insert(new Conference(acronym, name));
-        dao.closeCurrenteSessionWithTransaction();
+        dao.closeCurrentSessionWithTransaction();
         
         return "";
     }

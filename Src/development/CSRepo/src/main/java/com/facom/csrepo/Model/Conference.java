@@ -6,13 +6,17 @@
 package com.facom.csrepo.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -50,8 +54,9 @@ public class Conference implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "name_conference")
     private String name;
+    
 //    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "id_Conference")
+//    @JoinColumn(name = "id_conference")
 //    private List<Edition> editions;
 
     public Conference() {}

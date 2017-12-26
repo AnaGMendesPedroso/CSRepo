@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,10 +51,10 @@ public class Author implements Serializable {
     @Column(name = "name_author")
     private String name;
     
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(name = "AuthorPaper",
-            joinColumns={@JoinColumn(name="id_Author")},
-            inverseJoinColumns={@JoinColumn(name="id_Paper")})
+    @ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "authorpaper",
+            joinColumns={@JoinColumn(name="id_author")},
+            inverseJoinColumns={@JoinColumn(name="id_paper")})
     private List<Paper> papers = new ArrayList<>();
 
     public Author(){}
@@ -61,7 +62,7 @@ public class Author implements Serializable {
     public Author(String name) {
         this.name = name;
     }
-
+    
     public Integer getId() {
         return id;
     }
