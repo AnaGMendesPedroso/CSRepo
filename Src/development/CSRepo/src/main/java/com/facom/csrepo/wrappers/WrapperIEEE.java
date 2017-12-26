@@ -48,7 +48,7 @@ public class WrapperIEEE {
         scheduleUpdate.set(Calendar.SECOND, 0);
         System.out.println(scheduleUpdate.getTime());
         Date data = scheduleUpdate.getTime();
-        UpdateWrapper reminder = new UpdateWrapper(data);
+        //UpdateWrapper reminder = new UpdateWrapper(data);
         
             // method that returns papers from a searched conference
         NodeList papers = searchConference();

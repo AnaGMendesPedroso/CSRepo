@@ -13,9 +13,9 @@
         <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
     
-    <listener>
-        <listener-class>
-            com.facom.csrepo.service.ServletListener
-        </listener-class>
-    </listener>
+    <servlet>
+        <servlet-name>WrapperStarter</servlet-name>
+        <servlet-class>com.facom.csrepo.service.WrapperStarter</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 </web-app>
