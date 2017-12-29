@@ -48,8 +48,10 @@ public class Edition implements Serializable {
     private int year;
     
     @ManyToOne
+    @JoinColumn(name="conference_edition")
     private Conference conference;
     @ManyToOne
+    @JoinColumn(name="publisher_edition")
     private Publisher publisher;
     
     @OneToMany(cascade = CascadeType.ALL)

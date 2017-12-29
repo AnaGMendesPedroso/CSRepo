@@ -4,9 +4,11 @@ import com.facom.csrepo.model.Author;
 import com.facom.csrepo.model.Conference;
 import com.facom.csrepo.model.Edition;
 import com.facom.csrepo.model.Paper;
+import com.facom.csrepo.model.Publisher;
 import com.facom.csrepo.model.dao.AuthorDao;
 import com.facom.csrepo.model.dao.EditionDao;
 import com.facom.csrepo.model.dao.PaperDao;
+import com.facom.csrepo.model.dao.PublisherDao;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -35,7 +37,12 @@ public class WrapperIEEE {
     AuthorDao authorDao;
     PaperDao paperDao;
     EditionDao editionDao;
+    PublisherDao publisherDao;
+
     List<Conference> listConferences;
+    
+    Publisher publisher;
+    Edition edition;
 
 //    public WrapperIEEE(){
 //        authorDao = new AuthorDao();
@@ -45,31 +52,62 @@ public class WrapperIEEE {
 //    }
     
     public WrapperIEEE(List<Conference> conferences){
+        initDao();
+        start(conferences);
+        closeDao();
+    }
+    
+    private void initDao(){
         authorDao = new AuthorDao();
         paperDao = new PaperDao();
         editionDao = new EditionDao();
+        publisherDao = new PublisherDao();
+        
         authorDao.openCurrentSessionWithTransaction();
         paperDao.openCurrentSession();
         editionDao.openCurrentSession();
-        start(conferences);
+        publisherDao.openCurrentSession();
+        
+        publisher = publisherDao.findByAcronym("IEEE").get(0);
     }
     
-    public void start(List<Conference> conferences){
+    private void closeDao(){
+        authorDao.closeCurrentSessionWithTransaction();
+        paperDao.closeCurrentSession();
+        editionDao.closeCurrentSession();
+        publisherDao.closeCurrentSession();
+    }
+    
+    private void start(List<Conference> conferences){
         int year = Calendar.getInstance().get(Calendar.YEAR);
+        boolean conferenceAdded;
         
         for(Conference conference : conferences){
-            // TODO: Verificar se a conferencia ja ocorreu esse ano
             List<Edition> editions = editionDao.findByConferenceId(conference.getId());
-            // Verificar se a conferenceia deste ano ja esta adicionada
+            conferenceAdded = false;
+            
+            // Check if the conference was already added this year
+            if(!editions.isEmpty()){
+                for(Edition edition : editions)
+                    if(edition.getYear() >= year){
+                        conferenceAdded = true;
+                        break;
+                     }
+                if(conferenceAdded)
+                    continue;
+            }
             
             // method that returns papers from a searched conference
             NodeList papers = searchConference(conference, year);
-            // method that builds metadata for each paper
-            buildMetadata(papers);
+            
+            if(papers != null){
+                // method that builds metadata for each paper
+                buildMetadata(papers, conference);
+            }
         }
     }
 
-    public NodeList searchConference(Conference conference, int year) {
+    private NodeList searchConference(Conference conference, int year) {
         String search;
         String name, acronym, apiKey;
         
@@ -91,6 +129,16 @@ public class WrapperIEEE {
 
         // search a conference in the IEE API and returns a string contents in Json format
         Document searchConference = getPapers(search);
+        if(searchConference == null){
+            return null;
+        }
+        
+        // Create a new edition
+        edition = new Edition(year);
+        edition.setConference(conference);
+        edition.setPublisher(publisher);
+        editionDao.insert(edition);
+            
         Element total = (Element) searchConference.getElementsByTagName("articles").item(0);
         // total of records returned from IEEE API
         System.out.println(total.getElementsByTagName("totalfound").item(0).getTextContent());
@@ -99,7 +147,7 @@ public class WrapperIEEE {
         return papers;
     }
 
-    public void buildMetadata(NodeList papers) {
+    private void buildMetadata(NodeList papers, Conference conference) {
         //declarando atributos dos metadados de um paper
         Paper paper;
         String paperTitle;
@@ -132,8 +180,11 @@ public class WrapperIEEE {
                 //publication year
                 String publicationTitle = (element.getElementsByTagName("publication_title").item(0).getTextContent());
                 publicationYear = Integer.parseInt(publicationTitle.split(" ")[0]);
-
+                
                 paper = new Paper(paperTitle, pages, publicationYear, firstPage, lastPage);
+                paper.setConference(conference);
+                paper.setPublisher(publisher);
+                paper.setEdition(edition);
 //                ConferenceDao conference = new ConferenceDao();
 //              paper.setConference(conference.findById(200));
 
@@ -153,11 +204,9 @@ public class WrapperIEEE {
                 
             } catch (Exception e) {}
         }
-        paperDao.closeCurrentSession();
-        authorDao.closeCurrentSessionWithTransaction();
     }
     
-    public Document getPapers(String uriStr) {
+    private Document getPapers(String uriStr) {
         try {
             URL url = new URL(uriStr);
 
@@ -184,7 +233,7 @@ public class WrapperIEEE {
         return null;
     }
 
-    public void insertAuthorDB(List<Author> authors, Paper paper) {
+    private void insertAuthorDB(List<Author> authors, Paper paper) {
         Author author;
         for (int i = 0; i < authors.size(); i++) {
             List<Author> tmpAuthors = authorDao.findByName(authors.get(i).getName());
