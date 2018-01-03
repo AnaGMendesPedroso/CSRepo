@@ -50,19 +50,22 @@ public class Author implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "name_author")
     private String name;
-    
-    @ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "authorpaper",
-            joinColumns={@JoinColumn(name="id_author")},
-            inverseJoinColumns={@JoinColumn(name="id_paper")})
+            joinColumns = {
+                @JoinColumn(name = "id_author")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "id_paper")})
     private List<Paper> papers = new ArrayList<>();
 
-    public Author(){}
+    public Author() {
+    }
 
     public Author(String name) {
         this.name = name;
     }
-    
+
     public Integer getId() {
         return id;
     }
@@ -86,8 +89,8 @@ public class Author implements Serializable {
     public void setPapers(List<Paper> papers) {
         this.papers = papers;
     }
-    
-    public void addPaper(Paper paper){
+
+    public void addPaper(Paper paper) {
         this.papers.add(paper);
     }
 
@@ -115,5 +118,5 @@ public class Author implements Serializable {
     public String toString() {
         return "com.facom.csrepo.model.Author[ id=" + id + " ]";
     }
-    
+
 }

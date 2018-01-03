@@ -49,7 +49,7 @@ public class EditionDao extends GenericDao<Edition>{
     public List<Edition> findAll() {
         openCurrentSession();
         List<Edition> editions = getCurrentSession().createQuery("FROM Edition").list();
-        closeCurrentSession();
+//        closeCurrentSession();
         return editions;
     }
 
@@ -58,7 +58,7 @@ public class EditionDao extends GenericDao<Edition>{
         openCurrentSession();
         Query query = getCurrentSession().createQuery("FROM Edition WHERE id = :id");
         Edition edition = (Edition)query.setParameter("id", id).list().get(0);
-        closeCurrentSession();
+//        closeCurrentSession();
         
         return edition;
     }
@@ -68,7 +68,7 @@ public class EditionDao extends GenericDao<Edition>{
         openCurrentSession();
         Query query = getCurrentSession().createQuery("FROM Edition WHERE name = :name");
         List<Edition> editions = query.setParameter("name", name).list();
-        closeCurrentSession();
+//        closeCurrentSession();
         
         return editions;
     }

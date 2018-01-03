@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+
+        <p:dialog id="EditionReportErrorDlg" widgetVar="EditionReportErrorDialog" modal="true" resizable="false" appendTo="@(body)" header="Report Edition Error">
+            <h:form id="EditionReportErrorForm">
+                <h3>Thank you for helping us make CSRepo more reliable.</h3>
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <h:panelGroup id="radioPanel">
+                            <p:selectOneRadio id="errorRadio" layout="pageDirection" required="true" requiredMessage="Please select one error to report.">
+                                <f:selectItem itemLabel="Conference not found" itemValue="0" />
+                                <f:selectItem itemLabel="Conference name is wrong" itemValue="1" />
+                                <f:selectItem itemLabel="Conference acronym is wrong" itemValue="2" />
+                                <f:selectItem itemLabel="Conference not found in the search" itemValue="3" />
+                                <f:selectItem itemLabel="Conference not found in the list" itemValue="4" />
+                                <f:selectItem itemLabel="When I click on a conference I go to a page not found error" itemValue="5" />
+                                <f:selectItem itemLabel="When I click on a conference I go to a wrong page" itemValue="6" />
+                                <f:selectItem itemLabel="Other..." itemValue="7" />
+                            </p:selectOneRadio>
+                        </h:panelGroup>
+
+                        <h:panelGroup id="infoPanel">
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="Your name:" for="infoName" />
+                                <p:inputText id="infoName" value="" required="true" requiredMessage="Your name is required."/>
+                        
+                                <p:outputLabel value="Your e-mail:" for="infoEmail" />
+                                <p:inputText id="infoEmail" value="" required="true" requiredMessage="Your e-mail is required."/>
+                                
+                                <p:outputLabel value="Description:" for="infoDescription" />
+                                <p:inputTextarea id="infoDescription" rows="15" cols="50" required="errorRadio.itemValue = 7" />
+                            </p:panelGrid>
+                        </h:panelGroup>
+
+                    </p:panelGrid>
+                    <p:commandButton value="Send report" update="display,:EditionListForm:datalist,:growl" oncomplete="handleSubmit(args, 'EditionReportErrorDialog');"/>
+                    <p:commandButton value="Back" onclick="EditionReportErrorDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

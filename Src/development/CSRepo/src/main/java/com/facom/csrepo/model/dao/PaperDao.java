@@ -48,7 +48,7 @@ public class PaperDao extends GenericDao<Paper>{
     public List<Paper> findAll() {
         openCurrentSession();
         List<Paper> papers = getCurrentSession().createQuery("FROM Paper").list();
-        closeCurrentSession();
+        //closeCurrentSession();
         
         return papers;
     }
@@ -58,7 +58,7 @@ public class PaperDao extends GenericDao<Paper>{
         openCurrentSession();
         Query query = getCurrentSession().createQuery("FROM Paper WHERE id = :id");
         Paper paper = (Paper)query.setParameter("id", id).list().get(0);
-        closeCurrentSession();
+        //closeCurrentSession();
         
         return paper;
     }
@@ -68,7 +68,7 @@ public class PaperDao extends GenericDao<Paper>{
         openCurrentSession();
         Query query = getCurrentSession().createQuery("FROM Paper WHERE title = :title");
         List<Paper> papers = query.setParameter("title", title).list();
-        closeCurrentSession();
+        //closeCurrentSession();
         
         return papers;
     }

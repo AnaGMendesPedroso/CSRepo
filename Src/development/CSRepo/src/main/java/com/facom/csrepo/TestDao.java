@@ -6,8 +6,10 @@
 package com.facom.csrepo;
 
 import com.facom.csrepo.model.Author;
+import com.facom.csrepo.model.Conference;
 import com.facom.csrepo.model.Paper;
 import com.facom.csrepo.model.dao.AuthorDao;
+import com.facom.csrepo.model.dao.ConferenceDao;
 import java.util.List;
 
 /**
@@ -16,7 +18,7 @@ import java.util.List;
  */
 public class TestDao {
     public static void main(String[] args){
-        Paper paper = new Paper("Teste Paperr", 37, 2015, 90, 127);
+        /*Paper paper = new Paper("Teste Paperr", 37, 2015, 90, 127);
         Author author = new Author("Vsandis Aaafdreia");
        
         //author.addPaper(paper);
@@ -32,6 +34,14 @@ public class TestDao {
             aDao.update(author1);
         }else{
             aDao.insert(author);
+        }*/
+        
+        ConferenceDao conferenceDao = new ConferenceDao();
+        List<Conference> conferencias = conferenceDao.findAll();
+        
+        for (Conference c: conferencias) {
+            System.out.println(c.getAcronym() + " -> " + c.getName());
         }
+        
     }
 }

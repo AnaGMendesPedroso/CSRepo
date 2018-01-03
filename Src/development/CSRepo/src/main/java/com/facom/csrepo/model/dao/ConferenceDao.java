@@ -47,8 +47,8 @@ public class ConferenceDao extends GenericDao<Conference>{
     @Override
     public List<Conference> findAll() {
         openCurrentSession();
-        List<Conference> conferences = getCurrentSession().createQuery("FROM Conference").list();
-        closeCurrentSession();
+        List<Conference> conferences = getCurrentSession().createCriteria(Conference.class).list();
+        //closeCurrentSession();
         return conferences;
     }
 

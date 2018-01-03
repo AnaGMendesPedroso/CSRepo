@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.facom.csrepo.model;
 
 import java.io.Serializable;
@@ -13,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -32,9 +26,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Conference.findAll", query = "SELECT c FROM Conference c")
-    , @NamedQuery(name = "Conference.findByid", query = "SELECT c FROM Conference c WHERE c.id = :id")
-    , @NamedQuery(name = "Conference.findByacronym", query = "SELECT c FROM Conference c WHERE c.acronym = :acronym")
-    , @NamedQuery(name = "Conference.findByname", query = "SELECT c FROM Conference c WHERE c.name = :name")})
+    , @NamedQuery(name = "Conference.findById", query = "SELECT c FROM Conference c WHERE c.id = :id")
+    , @NamedQuery(name = "Conference.findByAcronym", query = "SELECT c FROM Conference c WHERE c.acronym = :acronym")
+    , @NamedQuery(name = "Conference.findByName", query = "SELECT c FROM Conference c WHERE c.name = :name")})
 public class Conference implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,20 +38,21 @@ public class Conference implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_conference")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "acronym_conference")
     private String acronym;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "name_conference")
     private String name;
     
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "id_conference")
-//    private List<Edition> editions;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conferenceEdition")
+    private List<Edition> editions;
 
     public Conference() {}
     
@@ -90,6 +85,14 @@ public class Conference implements Serializable {
         this.name = name;
     }
 
+    public List<Edition> getEditions() {
+        return editions;
+    }
+
+    public void setEditions(List<Edition> editions) {
+        this.editions = editions;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

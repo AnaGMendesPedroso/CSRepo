@@ -1,13 +1,13 @@
 
-Naming branch policies
+###Naming branch policies
 	A branch shall be created for each issue.
 	A branch shall be created only when someone starts the issue's development.
 	The branch shall be named with the name of the developer and the number of the issue, divided with a slash. 
 	Ex: jose/#55
 
-Configure branch policies
+###Configuring branch policies
 
-	When starting work on a new issue, use the following command to create an move to the new branch:
+	When starting to work on a new issue, use the following command to create and move to the new branch:
 		git checkout -b firstName/featureNumber
 		Ex: git checkout -b jose/#55
 

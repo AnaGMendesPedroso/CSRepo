@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -42,13 +43,17 @@ public class Edition implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_edition")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "year_edition")
     private int year;
     
-    @ManyToOne
-    private Conference conference;
+    @JoinColumn(name = "conference_edition", referencedColumnName = "id_conference")
+    @ManyToOne(optional = false)
+    private Conference conferenceEdition;
+    
+    @JoinColumn(name = "publisher_edition", referencedColumnName = "id_publisher")
     @ManyToOne
     private Publisher publisher;
     
@@ -90,12 +95,13 @@ public class Edition implements Serializable {
         this.papers.add(paper);
     }
 
-    public Conference getConference() {
-        return conference;
+    @XmlTransient
+    public Conference getConferenceEdition() {
+        return conferenceEdition;
     }
 
-    public void setConference(Conference conference) {
-        this.conference = conference;
+    public void setConferenceEdition(Conference conferenceEdition) {
+        this.conferenceEdition = conferenceEdition;
     }
 
     public Publisher getPublisher() {

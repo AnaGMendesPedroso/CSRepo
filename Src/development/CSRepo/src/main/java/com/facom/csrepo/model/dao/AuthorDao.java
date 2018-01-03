@@ -65,10 +65,10 @@ public class AuthorDao extends GenericDao<Author>{
 
     @Override
     public List<Author> findByName(String name) {
-//        openCurrentSession();
+        openCurrentSession();
         Query query = getCurrentSession().createQuery("FROM Author WHERE name = :name");
         List<Author> authors = query.setParameter("name", name).list();
-//        closeCurrentSession();
+        closeCurrentSession();
         
         return authors;
     }

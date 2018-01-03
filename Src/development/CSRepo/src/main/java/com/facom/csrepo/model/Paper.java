@@ -34,12 +34,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Paper.findAll", query = "SELECT p FROM Paper p")
-    , @NamedQuery(name = "Paper.findByid", query = "SELECT p FROM Paper p WHERE p.id = :id")
-    , @NamedQuery(name = "Paper.findBytitle", query = "SELECT p FROM Paper p WHERE p.title = :title")
-    , @NamedQuery(name = "Paper.findBypages", query = "SELECT p FROM Paper p WHERE p.pages = :pages")
-    , @NamedQuery(name = "Paper.findByyearPublication", query = "SELECT p FROM Paper p WHERE p.yearPublication = :yearPublication")
-    , @NamedQuery(name = "Paper.findByfirstPage", query = "SELECT p FROM Paper p WHERE p.firstPage = :firstPage")
-    , @NamedQuery(name = "Paper.findBylastPage", query = "SELECT p FROM Paper p WHERE p.lastPage = :lastPage")})
+    , @NamedQuery(name = "Paper.findById", query = "SELECT p FROM Paper p WHERE p.id = :id")
+    , @NamedQuery(name = "Paper.findByTitle", query = "SELECT p FROM Paper p WHERE p.title = :title")
+    , @NamedQuery(name = "Paper.findByPages", query = "SELECT p FROM Paper p WHERE p.pages = :pages")
+    , @NamedQuery(name = "Paper.findByYearPublication", query = "SELECT p FROM Paper p WHERE p.yearPublication = :yearPublication")
+    , @NamedQuery(name = "Paper.findByFirstPage", query = "SELECT p FROM Paper p WHERE p.firstPage = :firstPage")
+    , @NamedQuery(name = "Paper.findByLastPage", query = "SELECT p FROM Paper p WHERE p.lastPage = :lastPage")})
 public class Paper implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,32 +59,32 @@ public class Paper implements Serializable {
     private int pages;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "year_Publication_paper")
+    @Column(name = "year_publication_paper")
     private int yearPublication;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "first_Page_paper")
+    @Column(name = "first_page_paper")
     private int firstPage;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "last_Page_paper")
+    @Column(name = "last_page_paper")
     private int lastPage;
-    
+
 //    @ManyToOne
 //    private Edition edition;
-    
     @ManyToOne
     @JoinColumn(name = "conference_paper")
     private Conference conference;
-    
+
     @ManyToOne
     @JoinColumn(name = "publisher_paper")
     private Publisher publisher;
-    
-    @ManyToMany(mappedBy="papers", cascade=CascadeType.ALL)
+
+    @ManyToMany(mappedBy = "papers", cascade = CascadeType.ALL)
     private List<Author> authors = new ArrayList<>();
 
-    public Paper(){}
+    public Paper() {
+    }
 
     public Paper(String title, int pages, int yearPublication, int firstPage, int lastPage) {
         this.title = title;
@@ -149,7 +149,6 @@ public class Paper implements Serializable {
 //    public void setEdition(Edition edition) {
 //        this.edition = edition;
 //    }
-
     public Conference getConference() {
         return conference;
     }
@@ -173,8 +172,8 @@ public class Paper implements Serializable {
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
-    
-    public void addAuthor(Author author){
+
+    public void addAuthor(Author author) {
         this.authors.add(author);
     }
 
@@ -202,5 +201,5 @@ public class Paper implements Serializable {
     public String toString() {
         return "com.facom.csrepo.model.Paper[ id=" + id + " ]";
     }
-    
+
 }
