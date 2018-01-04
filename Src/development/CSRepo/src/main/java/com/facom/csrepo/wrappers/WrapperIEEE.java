@@ -79,7 +79,9 @@ public class WrapperIEEE {
     }
     
     private void start(List<Conference> conferences){
-        int year = Calendar.getInstance().get(Calendar.YEAR);
+        //int year = Calendar.getInstance().get(Calendar.YEAR);
+        // TEMP
+        int year = 2017;
         boolean conferenceAdded;
         
         for(Conference conference : conferences){
@@ -137,7 +139,7 @@ public class WrapperIEEE {
         edition = new Edition(year);
         edition.setConference(conference);
         edition.setPublisher(publisher);
-        editionDao.insert(edition);
+        //editionDao.insert(edition);
             
         Element total = (Element) searchConference.getElementsByTagName("articles").item(0);
         // total of records returned from IEEE API
@@ -184,9 +186,7 @@ public class WrapperIEEE {
                 paper = new Paper(paperTitle, pages, publicationYear, firstPage, lastPage);
                 paper.setConference(conference);
                 paper.setPublisher(publisher);
-                paper.setEdition(edition);
-//                ConferenceDao conference = new ConferenceDao();
-//              paper.setConference(conference.findById(200));
+                //paper.setEdition(edition);
 
                 //get authors
                 authors = element.getElementsByTagName("authors");
@@ -207,10 +207,12 @@ public class WrapperIEEE {
     }
     
     private Document getPapers(String uriStr) {
+        HttpURLConnection connection;
+        
         try {
             URL url = new URL(uriStr);
 
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/xml");
 
