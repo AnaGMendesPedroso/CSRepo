@@ -6,6 +6,7 @@
 package com.facom.csrepo.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -43,27 +44,28 @@ public class Edition implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_edition")
     private Integer id;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "year_edition")
     private int year;
-    
+
     @JoinColumn(name = "conference_edition", referencedColumnName = "id_conference")
     @ManyToOne(optional = false)
     private Conference conferenceEdition;
-    
+
     @JoinColumn(name = "publisher_edition", referencedColumnName = "id_publisher")
     @ManyToOne
     private Publisher publisher;
-    
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_edition")
-    private List<Paper> papers;
+    private List<Paper> papers = new ArrayList<>();
 
-    public Edition(){}
+    public Edition() {
+    }
 
-    public Edition(int year){
+    public Edition(int year) {
         this.year = year;
     }
 
@@ -90,8 +92,8 @@ public class Edition implements Serializable {
     public void setPapers(List<Paper> papers) {
         this.papers = papers;
     }
-    
-    public void addPaper(Paper paper){
+
+    public void addPaper(Paper paper) {
         this.papers.add(paper);
     }
 
@@ -136,5 +138,5 @@ public class Edition implements Serializable {
     public String toString() {
         return "com.facom.csrepo.model.Edition[ id=" + id + " ]";
     }
-    
+
 }

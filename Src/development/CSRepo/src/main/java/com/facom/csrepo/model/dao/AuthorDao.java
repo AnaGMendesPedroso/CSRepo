@@ -6,7 +6,6 @@
 package com.facom.csrepo.model.dao;
 
 import com.facom.csrepo.model.Author;
-import com.facom.csrepo.model.Paper;
 import java.util.List;
 import org.hibernate.Query;
 
@@ -56,7 +55,7 @@ public class AuthorDao extends GenericDao<Author>{
     @Override
     public Author findById(Integer id) {
         openCurrentSession();
-        Query query = getCurrentSession().createQuery("FROM Paper WHERE id = :id");
+        Query query = getCurrentSession().createQuery("FROM Author WHERE id = :id");
         Author author = (Author)query.setParameter("id", id).list().get(0);
         closeCurrentSession();
         

@@ -10,10 +10,30 @@
         <p:dialog id="PaperViewDlg" widgetVar="PaperViewDialog" modal="true" resizable="false" appendTo="@(body)" header="Paper Metadata">
             <h:form id="PaperViewForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{paperController.selected != null}">
+                    <p:panelGrid columns="2">
 
+                        <h:outputText value="#{paperController.content}" />                        
                         
-                        
+                        <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+                            <p:graphicImage library="images" name="ajaxloadingbar.gif" />
+                        </p:dialog>
+
+                        <h:form>
+                            <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                                <p:fileDownload value="#{paperController.file}" />
+                            </p:commandButton>
+                        </h:form>
+
+                        <script type="text/javascript">
+                            function start() {
+                                PF('statusDialog').show();
+                            }
+
+                            function stop() {
+                                PF('statusDialog').hide();
+                            }
+                        </script>
+
                     </p:panelGrid>
                     <p:commandButton value="Close" onclick="PaperViewDialog.hide()"/>
                 </h:panelGroup>

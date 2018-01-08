@@ -12,32 +12,60 @@
             <h:outputText value="Paper"></h:outputText>
         </ui:define>
 
+        <h:form>
+            <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                <p:fileDownload value="#{paperController.file}" />
+            </p:commandButton>
+        </h:form>
+
+        <script type="text/javascript">
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
+        </script>
+
         <ui:define name="body">
             <h:form id="PaperListForm">
                 <p:panel header="Paper">
-                    <p:dataList id="datalist" value="#{paperController.items}" var="item"
-                                paginator="true"
-                                rows="10"
-                                styleClass="paginated"
-                                type="unordered" itemType="none"
-                                >
+                    <p:dataTable id="datalist" value="#{paperController.items}" var="item"
+                                 selection="#{paperController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 widgetVar="paperTable"
+                                 scrollable="true" scrollRows="20"
+                                 emptyMessage="No conferences found with given criteria"
+                                 filteredValue="#{paperController.filteredPapers}"
+                                 >
 
-                        <p:commandButton icon="ui-icon-arrowstop-1-s" update=":PaperViewForm" oncomplete="PF('PaperViewDialog').show()" />
-                        <p:commandButton icon="ui-icon-document" update=":PaperViewForm" oncomplete="PF('PaperViewDialog').show()" />
-                        
-                        <ui:repeat value="#{item.authors}" var="author" varStatus="status">
-                            <h:outputText value="#{author.name}, " />
-                        </ui:repeat>
-                        
-                        <h:outputText value="#{item.title}. #{item.firstPage} - #{item.lastPage}"/>
+                        <p:column>
+                            <p:commandButton icon="ui-icon-arrowstop-1-s" update=":PaperViewForm" oncomplete="PF('PaperViewDialog').show()" />
+                        </p:column>
+
+                        <p:column>
+                            <p:commandButton icon="ui-icon-document" update=":PaperViewForm" oncomplete="PF('PaperViewDialog').show()" />
+                        </p:column>
+
+                        <p:column filterBy="#{item.title}">
+                            <ui:repeat value="#{item.authors}" var="author" varStatus="status">
+                                <h:outputText value="#{author.name}, " />
+                            </ui:repeat>
+
+                            <h:outputText value=" #{item.title}. #{item.firstPage} - #{item.lastPage}"/>
+                        </p:column>
 
                         <f:facet name="footer">
-                            <p:commandButton id="reportButton" icon="ui-icon-pencil" value="Report error" update=":PaperReportErrorForm" oncomplete="PF('PaperReportErrorDialog').show()"/>
+                            <p:commandButton id="reportButton" icon="ui-icon-pencil" value="Report error" update=":PaperReportErrorForm" oncomplete="PF('PaperReportErrorDialog').show()" >
+                                <f:setPropertyActionListener value="#{paperController.selected}" target="reportController.reportPaper" />
+                            </p:commandButton>
                         </f:facet>
-                    </p:dataList>
+                    </p:dataTable>
                 </p:panel>
             </h:form>
-            
+
             <ui:include src="ReportError.xhtml"/>
             <ui:include src="View.xhtml"/>
         </ui:define>

@@ -15,16 +15,14 @@
                     <p:panelGrid columns="2">
 
                         <h:panelGroup id="radioPanel">
-                            <p:selectOneRadio id="errorRadio" layout="pageDirection" required="true" requiredMessage="Please select one error to report.">
-                                <f:selectItem itemLabel="Conference not found" itemValue="0" />
-                                <f:selectItem itemLabel="Conference name is wrong" itemValue="1" />
-                                <f:selectItem itemLabel="Conference acronym is wrong" itemValue="2" />
-                                <f:selectItem itemLabel="Conference not found in the search" itemValue="3" />
-                                <f:selectItem itemLabel="Conference not found in the list" itemValue="4" />
-                                <f:selectItem itemLabel="When I click on a conference I go to a page not found error" itemValue="5" />
-                                <f:selectItem itemLabel="When I click on a conference I go to a wrong page" itemValue="6" />
-                                <f:selectItem itemLabel="Other..." itemValue="7" />
-                            </p:selectOneRadio>
+                            <p:outputLabel value="Name" for="conferenceName" />
+                            <p:outputLabel id="conferenceName" value="#{reportController.reportEdition.conferenceEdition.name}" />
+                            
+                            <p:outputLabel value="Year" for="conferenceYear" />
+                            <p:outputLabel id="conferenceYear" value="#{reportController.reportEdition.year}" />
+                            
+                            <p:outputLabel value="Where" for="conferenceWhere" />
+                            <!--<p:outputLabel id="conferenceWhere" value="#{reportController.reportEdition.year}" />-->
                         </h:panelGroup>
 
                         <h:panelGroup id="infoPanel">

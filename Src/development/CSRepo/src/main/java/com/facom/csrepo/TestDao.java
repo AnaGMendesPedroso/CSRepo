@@ -7,9 +7,12 @@ package com.facom.csrepo;
 
 import com.facom.csrepo.model.Author;
 import com.facom.csrepo.model.Conference;
+import com.facom.csrepo.model.Edition;
 import com.facom.csrepo.model.Paper;
 import com.facom.csrepo.model.dao.AuthorDao;
 import com.facom.csrepo.model.dao.ConferenceDao;
+import com.facom.csrepo.model.dao.EditionDao;
+import com.facom.csrepo.model.dao.PaperDao;
 import java.util.List;
 
 /**
@@ -18,30 +21,37 @@ import java.util.List;
  */
 public class TestDao {
     public static void main(String[] args){
-        /*Paper paper = new Paper("Teste Paperr", 37, 2015, 90, 127);
-        Author author = new Author("Vsandis Aaafdreia");
+        Paper paper = new Paper("The title of the work", 37, 2015, 90, 127);
+        Author author = new Author("Peter Adams");
        
-        //author.addPaper(paper);
+        author.addPaper(paper);
        
+        Conference conference = new Conference("Mostratec", "Mostratec");
+        Edition edition = new Edition(2015);
+        
+        conference.getEditions().add(edition);
+        edition.addPaper(paper);
+        
         AuthorDao aDao = new AuthorDao();
+        PaperDao pDao = new PaperDao();
+        ConferenceDao cDao = new ConferenceDao();
+        EditionDao eDao = new EditionDao();
         
-        List<Author> listAuthor = aDao.findByName(author.getName());
-        //List<Paper> listPaper = 
-        Author author1 = listAuthor.get(0);
-        author1.addPaper(paper);
-        
-        if(listAuthor.size() > 0){
-            aDao.update(author1);
-        }else{
+        if (aDao.findByName(author.getName()).isEmpty()) {
             aDao.insert(author);
-        }*/
-        
-        ConferenceDao conferenceDao = new ConferenceDao();
-        List<Conference> conferencias = conferenceDao.findAll();
-        
-        for (Conference c: conferencias) {
-            System.out.println(c.getAcronym() + " -> " + c.getName());
         }
         
+        if (pDao.findByName(paper.getTitle()).isEmpty()) {
+            pDao.insert(paper);
+        }
+        
+        if (cDao.findByName(conference.getName()).isEmpty()) {
+            cDao.insert(conference);
+        }
+        
+        if (eDao.findByNameAndYear(conference.getName(), edition.getYear()).isEmpty()) {
+            eDao.insert(edition);
+        } 
+                
     }
 }

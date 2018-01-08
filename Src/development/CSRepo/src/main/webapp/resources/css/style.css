@@ -16,6 +16,11 @@ h2 {
     color: #595959;
 }
 
+h3 {
+    font: bold 20px Arial;
+    color: #156bbd;
+}
+
 a {
     color: #3a34c3;
     text-decoration: none;
@@ -61,18 +66,14 @@ input {
     font-size: 12px !important;
 }
 
-.ui-layout-north {
-    color: #FFFFFF ;
-    background-color: #252525;
-    padding: 10px 0px 28px 10px;
-    
-    z-index: 20 !important;
-    overflow: visible !important;;
+.ui-menuitem {
+    white-space: nowrap;
+    font-size: 16px !important;
 }
 
-.ui-layout-north a {
-    color: #FFFFFF;
-    font: bold 24px Arial;
+.ui-layout-north {    
+    z-index: 20 !important;
+    overflow: visible !important;
 }
 
 .ui-layout-north .ui-layout-unit-content {

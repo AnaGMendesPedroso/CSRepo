@@ -1,6 +1,7 @@
 package com.facom.csrepo.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -38,24 +39,25 @@ public class Conference implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_conference")
     private Integer id;
-    
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "acronym_conference")
     private String acronym;
-    
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "name_conference")
     private String name;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conferenceEdition")
-    private List<Edition> editions;
 
-    public Conference() {}
-    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conferenceEdition")
+    private List<Edition> editions = new ArrayList<>();
+
+    public Conference() {
+    }
+
     public Conference(String acronym, String name) {
         this.acronym = acronym;
         this.name = name;
@@ -92,7 +94,7 @@ public class Conference implements Serializable {
     public void setEditions(List<Edition> editions) {
         this.editions = editions;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -117,5 +119,5 @@ public class Conference implements Serializable {
     public String toString() {
         return "com.facom.csrepo.model.Conference[ id=" + id + " ]";
     }
-    
+
 }

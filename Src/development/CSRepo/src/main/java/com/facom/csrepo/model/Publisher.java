@@ -6,6 +6,7 @@
 package com.facom.csrepo.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -62,9 +63,10 @@ public class Publisher implements Serializable {
     //TODO: Test cascade
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_publisher")
-    private List<Edition> editions;
+    private List<Edition> editions = new ArrayList<>();
 
-    public Publisher(){}
+    public Publisher() {
+    }
 
     public Publisher(String link, String name, String acronym) {
         this.link = link;
@@ -136,5 +138,5 @@ public class Publisher implements Serializable {
     public String toString() {
         return "com.facom.csrepo.model.Publisher[ id=" + id + " ]";
     }
-    
+
 }

@@ -7,6 +7,10 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
         <title><ui:insert name="title">Default Title</ui:insert></title>
         <h:outputStylesheet library="css" name="style.css"/>
         <h:outputScript library="js" name="javascript.js"/>
@@ -16,9 +20,9 @@
         <p:growl id="growl" life="3000" />
 
         <ui:debug />
-        
+
         <p:layout fullPage="true">
-            <p:layoutUnit position="north" size="65">
+            <p:layoutUnit position="north">
                 <h:form id="menuForm">
                     <p:menubar>
                         <p:menuitem value="Conferences" outcome="/conference/List.xhtml" />
