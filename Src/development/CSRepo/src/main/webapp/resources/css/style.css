@@ -56,6 +56,10 @@ a:hover {
     background-color : #f6f6fa;
 }
 
+.right {
+    float: right;
+}
+
 input {
     font-size: 16px;
     border: 1px solid #0000c6;

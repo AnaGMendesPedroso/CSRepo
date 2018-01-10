@@ -4,16 +4,16 @@ import com.facom.csrepo.model.Edition;
 import com.facom.csrepo.model.dao.EditionDao;
 import java.io.Serializable;
 import java.util.List;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 
 /**
  *
- * 
+ * @author karolina
  */
 @ManagedBean(name = "editionController")
-@SessionScoped
+@RequestScoped
 public class EditionController implements Serializable {
 
     private EditionDao editionDao = null;

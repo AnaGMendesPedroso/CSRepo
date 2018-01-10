@@ -11,18 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 /**
  *
- * @author Karolina
+ * @author karolina
  */
 @ManagedBean(name = "paperController")
-@SessionScoped
+@RequestScoped
 public class PaperController implements Serializable {
 
     private String content;

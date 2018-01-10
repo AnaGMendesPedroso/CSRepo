@@ -53,5 +53,6 @@ Contributor(s):
     <mapping class="com.facom.csrepo.model.Edition"/>
     <mapping class="com.facom.csrepo.model.Paper"/>
     <mapping class="com.facom.csrepo.model.Publisher"/>
+    <mapping class="com.facom.csrepo.model.Report"/>
   </session-factory>
 </hibernate-configuration>

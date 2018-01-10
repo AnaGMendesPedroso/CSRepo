@@ -12,40 +12,55 @@
             <h:outputText value="Paper"></h:outputText>
         </ui:define>
 
-        <h:form>
-            <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-                <p:fileDownload value="#{paperController.file}" />
-            </p:commandButton>
-        </h:form>
-
-        <script type="text/javascript">
-            function start() {
-                PF('statusDialog').show();
-            }
-
-            function stop() {
-                PF('statusDialog').hide();
-            }
-        </script>
-
         <ui:define name="body">
+
+            <h:form>
+                <p:confirmDialog id="deleteConfirmDialog" message="Are you sure you want to export all metadata?"
+                                 header="Export metadata"
+                                 widgetVar="downloadConfirmation">
+
+                    <p:commandButton id="confirm" value="Yes"
+                                     onclick="PrimeFaces.monitorDownload(start, stop);"
+                                     oncomplete="downloadConfirmation.hide()" />
+                    <p:commandButton id="cancel" value="No"
+                                     onclick="downloadConfirmation.hide()" type="button" />
+                </p:confirmDialog>
+
+
+                <p:commandButton value="Export all metadata" ajax="false" onclick="downloadConfirmation.show()" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{paperController.file}" />
+                </p:commandButton>
+            </h:form>
+
+            <script type="text/javascript">
+                function start() {
+                    PF('statusDialog').show();
+                }
+
+                function stop() {
+                    PF('statusDialog').hide();
+                }
+            </script>
+
             <h:form id="PaperListForm">
                 <p:panel header="Paper">
                     <p:dataTable id="datalist" value="#{paperController.items}" var="item"
                                  selection="#{paperController.selected}"
                                  paginator="true"
+                                 selectionMode="single"
                                  rowKey="#{item.id}"
                                  widgetVar="paperTable"
-                                 scrollable="true" scrollRows="20"
+                                 rows="15"
                                  emptyMessage="No conferences found with given criteria"
                                  filteredValue="#{paperController.filteredPapers}"
+                                 style="margin-bottom:0"
                                  >
 
-                        <p:column>
+                        <p:column style="width:20px;text-align: center">
                             <p:commandButton icon="ui-icon-arrowstop-1-s" update=":PaperViewForm" oncomplete="PF('PaperViewDialog').show()" />
                         </p:column>
 
-                        <p:column>
+                        <p:column style="width:20px;text-align: center">
                             <p:commandButton icon="ui-icon-document" update=":PaperViewForm" oncomplete="PF('PaperViewDialog').show()" />
                         </p:column>
 
@@ -58,15 +73,13 @@
                         </p:column>
 
                         <f:facet name="footer">
-                            <p:commandButton id="reportButton" icon="ui-icon-pencil" value="Report error" update=":PaperReportErrorForm" oncomplete="PF('PaperReportErrorDialog').show()" >
-                                <f:setPropertyActionListener value="#{paperController.selected}" target="reportController.reportPaper" />
+                            <p:commandButton id="reportButton" icon="ui-icon-pencil" value="Report error" actionListener="#{reportController.showPaperErrorReport(paperController.selected)}" action="/report/View" >
                             </p:commandButton>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
             </h:form>
 
-            <ui:include src="ReportError.xhtml"/>
             <ui:include src="View.xhtml"/>
         </ui:define>
     </ui:composition>

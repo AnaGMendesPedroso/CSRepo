@@ -70,8 +70,10 @@ public class Paper implements Serializable {
     @Column(name = "last_page_paper")
     private int lastPage;
 
-//    @ManyToOne
-//    private Edition edition;
+    @ManyToOne
+    @JoinColumn(name = "edition_paper")
+    private Edition edition;
+
     @ManyToOne
     @JoinColumn(name = "conference_paper")
     private Conference conference;
@@ -142,13 +144,14 @@ public class Paper implements Serializable {
         this.lastPage = lastPage;
     }
 
-//    public Edition getEdition() {
-//        return edition;
-//    }
-//
-//    public void setEdition(Edition edition) {
-//        this.edition = edition;
-//    }
+    public Edition getEdition() {
+        return edition;
+    }
+
+    public void setEdition(Edition edition) {
+        this.edition = edition;
+    }
+
     public Conference getConference() {
         return conference;
     }

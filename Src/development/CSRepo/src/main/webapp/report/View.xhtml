@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template/layoutBase.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Report Error"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+
+            <h:form id="reportError">
+
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6">
+                        <h3>Thank you for helping us make CSRepo more reliable.</h3>
+                    </div>
+                </div>
+
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6">
+                        <p:selectOneRadio id="radioError" value="#{reportController.reportType}" disabled="#{reportController.disabled}">
+                            <f:selectItem itemLabel="Conference" itemValue="Conference" />
+                            <f:selectItem itemLabel="Edition" itemValue="Edition" />
+                            <f:selectItem itemLabel="Paper" itemValue="Paper" />
+
+                            <p:ajax update="conferenceError editionError paperError"/> 
+                        </p:selectOneRadio>
+                    </div>
+                </div>
+
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6">
+                        <p:panel id="conferenceError" visible="#{reportController.reportType == 'Conference'}" >
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-6">
+                                    <p:outputLabel value="Conference: " for="conferenceName" />
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <p:inputText id="conferenceName" value="#{reportController.reportConference.name}" disabled="#{reportController.disabled}" />
+                                </div>
+                            </div>
+
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-6">
+                                    <p:outputLabel value="Acronym: " for="acronymConference" />
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <p:inputText id="acronymConference" value="#{reportController.reportConference.acronym}" disabled="#{reportController.disabled}" />
+                                </div>
+                            </div>
+                        </p:panel>
+
+                        <p:panel id="editionError" visible="#{reportController.reportType == 'Edition'}" >
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:outputLabel value="Conference" for="conferenceEdition" />
+                                </div>
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:inputText id="conferenceEdition" value="#{reportController.reportEdition.conferenceEdition.name}" disabled="#{reportController.disabled}" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:outputLabel value="Year: " for="yearEdition" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:inputText id="yearEdition" value="#{reportController.reportEdition.year}" disabled="#{reportController.disabled}" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:outputLabel value="Publisher: " for="publisherEdition" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:inputText id="publisherEdition" value="#{reportController.reportEdition.publisher.name}" disabled="#{reportController.disabled}" />
+                                </div>
+                            </div>
+                        </p:panel>
+
+                        <p:panel id="paperError" visible="#{reportController.reportType == 'Paper'}" >
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:outputLabel value="Title: " for="titlePaper" />
+                                </div>
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:inputText id="titlePaper" value="#{reportController.reportPaper.title}" disabled="#{reportController.disabled}" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:outputLabel value="Pages: " for="pagesPaper" />
+                                </div>
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:inputText id="pagesPaper" value="#{reportController.reportPaper.pages}" disabled="#{reportController.disabled}" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:outputLabel value="Year of publication: " for="yearPublicationPaper" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:inputText id="yearPublicationPaper" value="#{reportController.reportPaper.yearPublication}" disabled="#{reportController.disabled}" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:outputLabel value="First page: " for="firstPagePaper" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:inputText id="firstPagePaper" value="#{reportController.reportPaper.firstPage}" disabled="#{reportController.disabled}" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:outputLabel value="Last page: " for="lastPagePaper" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:inputText id="lastPagePaper" value="#{reportController.reportPaper.lastPage}" disabled="#{reportController.disabled}" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:outputLabel value="Conference: " for="conferencePaper" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:inputText id="conferencePaper" value="#{reportController.reportPaper.conference.name}" disabled="#{reportController.disabled}" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:outputLabel value="Edition" for="editionPaper" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:inputText id="editionPaper" value="#{reportController.reportPaper.conference.acronym} - #{reportController.reportPaper.edition.year}" disabled="#{reportController.disabled}" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:outputLabel value="Publisher: " for="publisherPaper" />
+                                </div>
+
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:inputText id="publisherPaper" value="#{reportController.reportPaper.publisher.name}" disabled="#{reportController.disabled}" />
+                                </div>
+                            </div>
+                        </p:panel>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-6">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Your name:" for="infoName" />
+                            <p:inputText id="infoName" value="#{reportController.report.name}" required="true" requiredMessage="Your name is required."/>
+
+                            <p:outputLabel value="Your e-mail:" for="infoEmail" />
+                            <p:inputText id="infoEmail" value="#{reportController.report.email}" required="true" requiredMessage="Your e-mail is required."/>
+
+                            <p:outputLabel value="Description:" for="infoDescription" />
+                            <p:inputTextarea id="infoDescription" value="#{reportController.report.description}" rows="15" cols="50" required="true" />
+                        </p:panelGrid>
+                    </div>
+                </div>
+
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6">
+                        <p:commandButton actionListener="#{reportController.save}" action="/index" value="Send report" />
+                    </div>
+                </div>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

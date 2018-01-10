@@ -17,9 +17,11 @@
                 <p:panel header="Editions">
                     <p:dataTable id="datalist" value="#{editionController.items}" var="item"
                                  selection="#{editionController.selected}"
+                                 selectionMode="single"
                                  paginator="true"
                                  rowKey="#{item.year}"
-                                 rows="10"
+                                 widgetVar="editionTable"
+                                 rows="15"
                                  style="margin-bottom:0"
                                  >
 
@@ -33,7 +35,7 @@
                             <f:facet name="header">
                                 <h:outputText value="When"/>
                             </f:facet>
-                            <h:outputText value="#{edition.year}"/>
+                            <h:outputText value="#{item.year}"/>
                         </p:column>
 
                         <p:column>
@@ -47,21 +49,16 @@
                             <f:facet name="header">
                                 <h:outputText value="Metadata Link"/>
                             </f:facet>
-                            <p:commandButton value="Papers Metadata" action="/paper/List?faces-redirect=true">
-                                <!--<f:setPropertyActionListener value="#{edition.papers}" target="paperController.items" />-->
-                            </p:commandButton>
+                            <p:commandButton value="Papers Metadata" action="/paper/List?faces-redirect=true" />
                         </p:column>
-                        
+
                         <f:facet name="footer">
-                            <p:commandButton id="reportButton" icon="ui-icon-pencil" value="Report error" update=":EditionReportErrorForm" oncomplete="PF('EditionReportErrorDialog').show()" >
-                                <f:setPropertyActionListener value="#{edition}" target="reportController.reportEdition" />
+                            <p:commandButton id="reportButton" icon="ui-icon-pencil" value="Report error" actionListener="#{reportController.showEditionErrorReport(editionController.selected)}" action="/report/View" >
                             </p:commandButton>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
             </h:form>
-
-            <ui:include src="ReportError.xhtml"/>
         </ui:define>
     </ui:composition>
 

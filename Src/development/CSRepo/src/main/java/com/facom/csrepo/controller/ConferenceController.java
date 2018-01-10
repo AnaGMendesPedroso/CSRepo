@@ -4,22 +4,21 @@ import com.facom.csrepo.model.Conference;
 import com.facom.csrepo.model.dao.ConferenceDao;
 import java.io.Serializable;
 import java.util.List;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 
 /**
  *
- *
+ * @author karolina
  */
 @ManagedBean(name = "conferenceController")
-@SessionScoped
+@RequestScoped
 public class ConferenceController implements Serializable {
 
     private ConferenceDao conferenceDao = null;
 
     private Conference selected;
     private List<Conference> items = null;
-    private List<Conference> selectedConferences = null;
     private List<Conference> filteredConferences = null;
     
     public ConferenceController() {
@@ -35,14 +34,6 @@ public class ConferenceController implements Serializable {
         this.selected = selected;
     }
     
-    public List<Conference> getSelectedConferences() {
-        return selectedConferences;
-    }
-
-    public void setSelectedConferences(List<Conference> selectedConferences) {
-        this.selectedConferences = selectedConferences;
-    }
-
     public List<Conference> getFilteredConferences() {
         return filteredConferences;
     }

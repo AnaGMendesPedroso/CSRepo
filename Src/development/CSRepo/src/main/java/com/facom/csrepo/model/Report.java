@@ -2,10 +2,12 @@ package com.facom.csrepo.model;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -23,22 +25,28 @@ public class Report implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_report")
     private Long id;
 
     private String name;
     private String email;
     private String description;
+    
+    private Integer error_type;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar created_at;
+    private Calendar created_on;
 
     @OneToOne
+    @JoinColumn(name = "id_conference")
     private Conference conference;
 
     @OneToOne
+    @JoinColumn(name = "id_edition")
     private Edition edition;
 
     @OneToOne
+    @JoinColumn(name = "id_paper")
     private Paper paper;
 
     public Long getId() {
@@ -73,12 +81,20 @@ public class Report implements Serializable {
         this.description = description;
     }
 
-    public Calendar getCreated_at() {
-        return created_at;
+    public Integer getError_type() {
+        return error_type;
     }
 
-    public void setCreated_at(Calendar created_at) {
-        this.created_at = created_at;
+    public void setError_type(Integer error_type) {
+        this.error_type = error_type;
+    }
+    
+    public Calendar getCreated_on() {
+        return created_on;
+    }
+
+    public void setCreated_on(Calendar created_on) {
+        this.created_on = created_on;
     }
 
     public Conference getConference() {
