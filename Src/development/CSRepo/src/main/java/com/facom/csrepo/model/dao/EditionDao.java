@@ -6,7 +6,6 @@
 package com.facom.csrepo.model.dao;
 
 import com.facom.csrepo.model.Edition;
-import com.facom.csrepo.model.Paper;
 import java.util.List;
 import org.hibernate.Query;
 

@@ -23,12 +23,15 @@ public class UpdateWrapper {
 
     public UpdateWrapper() {
         timer = new Timer();
+        //Temp
+        timer.schedule(new RemindTask(), fiveMinutes());
+        //Temp
         scheduleNextUpdate();
     }
     
     public void scheduleNextUpdate(){
-        //Date date = getNextMonth();
-        Date date = fiveMinutes();
+        Date date = getNextMonth();
+        //Date date = fiveMinutes();
         timer.schedule(new RemindTask(), date);
     }
     

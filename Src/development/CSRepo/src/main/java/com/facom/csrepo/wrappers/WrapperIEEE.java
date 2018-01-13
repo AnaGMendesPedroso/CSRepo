@@ -16,7 +16,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -52,9 +55,8 @@ public class WrapperIEEE {
 //    }
     
     public WrapperIEEE(List<Conference> conferences){
-        initDao();
-        start(conferences);
-        closeDao();
+        scheduleWrapper(conferences);
+        //start(conferences);
     }
     
     private void initDao(){
@@ -65,24 +67,59 @@ public class WrapperIEEE {
         
         authorDao.openCurrentSessionWithTransaction();
         paperDao.openCurrentSession();
-        editionDao.openCurrentSession();
-        publisherDao.openCurrentSession();
+        editionDao.openCurrentSessionWithTransaction();
         
+        publisherDao.openCurrentSession();
         publisher = publisherDao.findByAcronym("IEEE").get(0);
-    }
-    
-    private void closeDao(){
-        authorDao.closeCurrentSessionWithTransaction();
-        paperDao.closeCurrentSession();
-        editionDao.closeCurrentSession();
         publisherDao.closeCurrentSession();
     }
     
+    private void closeDao(){
+        editionDao.closeCurrentSessionWithTransaction();
+        paperDao.closeCurrentSession();
+        authorDao.closeCurrentSessionWithTransaction();
+    }
+    
+    private void scheduleWrapper(List<Conference> conferences){
+        Timer timer = new Timer();
+        int first, last;
+        first = 0;
+        last = 185;
+        
+        int days = 1;
+        
+        start(conferences.subList(first, last));
+        
+        for(first = last; first < conferences.size(); first += 185){
+            if((conferences.size() - first) >= 185)
+                last += 185; 
+            else
+                last = conferences.size();
+            
+            timer.schedule(new DailyTask(conferences.subList(first, last)), getDate(days));
+            days++;
+        }
+    }
+    
+    private Date getDate(int days){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + days);
+        
+        return calendar.getTime();
+    }
+    
     private void start(List<Conference> conferences){
-        //int year = Calendar.getInstance().get(Calendar.YEAR);
-        // TEMP
-        int year = 2017;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 6);
+        
+        int year = calendar.get(Calendar.YEAR);
         boolean conferenceAdded;
+        
+        initDao();
+        
+        for(Conference conference : conferences){
+            System.out.println(conference.getId() + " blablabla" + conference.getName());
+        }
         
         for(Conference conference : conferences){
             List<Edition> editions = editionDao.findByConferenceId(conference.getId());
@@ -103,10 +140,13 @@ public class WrapperIEEE {
             NodeList papers = searchConference(conference, year);
             
             if(papers != null){
+                System.out.println("Achou papers da conferencia");
                 // method that builds metadata for each paper
                 buildMetadata(papers, conference);
             }
         }
+        
+        closeDao();
     }
 
     private NodeList searchConference(Conference conference, int year) {
@@ -116,10 +156,7 @@ public class WrapperIEEE {
         search = "http://ieeexploreapi.ieee.org/api/v1/search/articles?publication_title="
                 + "NAMEANDACRONYM&publication_year=YEAR&max_records=1000&format=xml&apikey=APIKEY";
         name = "\"" + conference.getName() + "\"";
-//        name = "\"International Conference on Software Engineering\"";
         acronym = "\"" + conference.getAcronym() + "\"";
-//        acronym = "\"ICSE\"";
-//        year = "2017";
         apiKey = "xsgdpynaaxuxtwummncmbbxs";
 
         search = search.replaceAll("NAME", name);
@@ -134,17 +171,21 @@ public class WrapperIEEE {
         if(searchConference == null){
             return null;
         }
+            
+        String total = ((Element)searchConference.getElementsByTagName("articles").item(0)).getElementsByTagName("totalfound").item(0).getTextContent();
+        System.out.println(total);
+        
+        if(Integer.parseInt(total) <= 0)
+            return null;
+        
+        NodeList papers = searchConference.getElementsByTagName("article");
         
         // Create a new edition
         edition = new Edition(year);
         edition.setConference(conference);
         edition.setPublisher(publisher);
-        //editionDao.insert(edition);
-            
-        Element total = (Element) searchConference.getElementsByTagName("articles").item(0);
-        // total of records returned from IEEE API
-        System.out.println(total.getElementsByTagName("totalfound").item(0).getTextContent());
-        NodeList papers = searchConference.getElementsByTagName("article");
+        editionDao.insert(edition);
+        System.out.println("Save Edition");
 
         return papers;
     }
@@ -157,7 +198,6 @@ public class WrapperIEEE {
         List<Author> listAuthor;
         
         int publicationYear, firstPage, lastPage, pages;
-        int cont = 0;
 
         // each article returned from API
         for (int i = 0; i < papers.getLength(); i++) {
@@ -186,7 +226,7 @@ public class WrapperIEEE {
                 paper = new Paper(paperTitle, pages, publicationYear, firstPage, lastPage);
                 paper.setConference(conference);
                 paper.setPublisher(publisher);
-                //paper.setEdition(edition);
+                paper.setEdition(edition);
 
                 //get authors
                 authors = element.getElementsByTagName("authors");
@@ -239,7 +279,6 @@ public class WrapperIEEE {
         Author author;
         for (int i = 0; i < authors.size(); i++) {
             List<Author> tmpAuthors = authorDao.findByName(authors.get(i).getName());
-            //boolean newAuthor = authorDao.findByName(authors.get(i).getName()).isEmpty();
             
             if(tmpAuthors.isEmpty()){
                 author = authors.get(i);
@@ -249,7 +288,6 @@ public class WrapperIEEE {
                 author = tmpAuthors.get(0);
                 author.addPaper(paper);
                 authorDao.update(author);
-//                authorDao.update(authors.get(i));
             }
         }
     }
@@ -261,5 +299,20 @@ public class WrapperIEEE {
         exist = !paperDao.findByName(paperTitle).isEmpty();
         
         return exist;
+    }
+    
+    class DailyTask extends TimerTask{
+        
+        List<Conference> conferences;
+        
+        public DailyTask(List<Conference> conferences){
+            this.conferences = conferences;
+        }
+
+        @Override
+        public void run() {
+            start(conferences);
+        }
+        
     }
 }
