@@ -5,8 +5,11 @@
  */
 package com.facom.csrepo.wrappers;
 
+import com.facom.csrepo.model.Conference;
+import com.facom.csrepo.model.dao.ConferenceDao;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -20,18 +23,21 @@ public class UpdateWrapper {
 
     public UpdateWrapper() {
         timer = new Timer();
+        //Temp
+        timer.schedule(new RemindTask(), fiveMinutes());
+        //Temp
         scheduleNextUpdate();
     }
     
     public void scheduleNextUpdate(){
-        //Date date = getNextMonth();
-        Date date = fiveMinutes();
+        Date date = getNextMonth();
+        //Date date = fiveMinutes();
         timer.schedule(new RemindTask(), date);
     }
     
     public Date fiveMinutes(){
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE)+1);
+        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE)+3);
         calendar.set(Calendar.SECOND, 0);
         System.out.println(calendar.getTime());
         
@@ -56,10 +62,20 @@ public class UpdateWrapper {
 
         @Override
         public void run() {
-            System.out.println("RemindTask");
-            //WrapperIEEE wIEEE = new WrapperIEEE();
+            List<Conference> listConferences = getConferences();
+            new WrapperIEEE(listConferences);
             scheduleNextUpdate();
             //timer.cancel(); //Terminate the timer thread
+        }
+        
+        private List<Conference> getConferences(){
+            ConferenceDao conferenceDao = new ConferenceDao();
+            
+            conferenceDao.openCurrentSession();
+            List<Conference> conferences = conferenceDao.findAll();
+            conferenceDao.closeCurrentSession();
+            
+            return conferences;
         }
     }
 }
