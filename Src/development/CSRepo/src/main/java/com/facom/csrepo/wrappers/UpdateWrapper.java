@@ -24,7 +24,7 @@ public class UpdateWrapper {
     public UpdateWrapper() {
         timer = new Timer();
         //Temp
-        timer.schedule(new RemindTask(), fiveMinutes());
+//        timer.schedule(new RemindTask(), fiveMinutes());
         //Temp
         scheduleNextUpdate();
     }

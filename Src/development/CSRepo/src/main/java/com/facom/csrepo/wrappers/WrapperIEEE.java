@@ -168,6 +168,8 @@ public class WrapperIEEE {
 
         // search a conference in the IEE API and returns a string contents in Json format
         Document searchConference = getPapers(search);
+        
+        //Check if the request failed
         if(searchConference == null){
             return null;
         }
@@ -175,6 +177,7 @@ public class WrapperIEEE {
         String total = ((Element)searchConference.getElementsByTagName("articles").item(0)).getElementsByTagName("totalfound").item(0).getTextContent();
         System.out.println(total);
         
+        // Check if the request return a conference
         if(Integer.parseInt(total) <= 0)
             return null;
         
@@ -185,7 +188,6 @@ public class WrapperIEEE {
         edition.setConference(conference);
         edition.setPublisher(publisher);
         editionDao.insert(edition);
-        System.out.println("Save Edition");
 
         return papers;
     }
