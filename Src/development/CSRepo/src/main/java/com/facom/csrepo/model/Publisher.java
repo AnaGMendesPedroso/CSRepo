@@ -136,5 +136,4 @@ public class Publisher implements Serializable {
     public String toString() {
         return "com.facom.csrepo.model.Publisher[ id=" + id + " ]";
     }
-    
 }

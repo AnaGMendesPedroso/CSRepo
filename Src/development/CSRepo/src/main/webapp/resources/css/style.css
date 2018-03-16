@@ -1,0 +1,98 @@
+body {
+    font: 18px Arial;
+    margin: 0 0 0 0;
+    background-color: #EEEEEE;
+}
+
+h1 {
+    margin: 0;
+    padding: 16px 0;
+    color: #000000;
+    font: bold 40px Arial;
+}
+
+h2 {
+    font: bold 24px Arial;
+    color: #595959;
+}
+
+h3 {
+    font: bold 20px Arial;
+    color: #156bbd;
+}
+
+a {
+    color: #3a34c3;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.dados {
+    border-collapse: collapse;
+}
+
+.dados td,.dados th {
+    border: 1px solid #0000c6;
+    padding: 3px 7px 2px 7px;
+}
+
+.dados th {
+    padding-top: 5px;
+    padding-bottom: 4px;
+    background-color: #156bbd;
+    color: #ffffff;
+}
+
+.dados tr .impar td {
+    color: #000000;
+    background-color: #d4d4d9;
+}
+
+.dados tr .par td {
+    color: #000000;
+    background-color : #f6f6fa;
+}
+
+.right {
+    float: right;
+}
+
+input {
+    font-size: 16px;
+    border: 1px solid #0000c6;
+    background-color: #f6f6fa;
+}
+
+.ui-widget {
+    font-size: 12px !important;
+}
+
+.ui-menuitem {
+    white-space: nowrap;
+    font-size: 16px !important;
+}
+
+.ui-layout-north {    
+    z-index: 20 !important;
+    overflow: visible !important;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+    overflow: visible !important;
+}
+
+.ui-widget-header {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.ui-button {
+    margin-top: 10px !important;
+}
+
+.ui-layout-center {
+    margin: 0px 0px 50px 10px;
+}

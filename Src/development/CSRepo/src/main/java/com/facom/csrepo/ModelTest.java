@@ -44,7 +44,6 @@ public class ModelTest {
         
         Edition edition = new Edition();
         edition.setYear(2017);
-        edition.setConference(conf);
         List<Edition> listEditions = new ArrayList<>();
         listEditions.add(edition);
         

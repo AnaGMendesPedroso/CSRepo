@@ -13,13 +13,13 @@ import org.hibernate.Query;
  *
  * @author jose
  */
-public class EditionDao extends GenericDao<Edition>{
-    
+public class EditionDao extends GenericDao<Edition> {
+
     @Override
     public void insert(Edition edition){
         getCurrentSession().save(edition);
     }
-    
+
     @Override
     public void delete(Edition edition) {
         getCurrentSession().delete(edition);
@@ -30,12 +30,12 @@ public class EditionDao extends GenericDao<Edition>{
         Edition edition = findById(id);
         getCurrentSession().delete(edition);
     }
-    
+
     @Override
     public void update(Edition edition) {
         getCurrentSession().update(edition);
     }
-    
+
     @Override
     public List<Edition> findAll() {
         List<Edition> editions = getCurrentSession().createQuery("FROM Edition").list();
@@ -47,7 +47,7 @@ public class EditionDao extends GenericDao<Edition>{
     public Edition findById(Integer id) {
         Query query = getCurrentSession().createQuery("FROM Edition WHERE id = :id");
         Edition edition = (Edition)query.setParameter("id", id).list().get(0);
-        
+
         return edition;
     }
    
@@ -55,7 +55,7 @@ public class EditionDao extends GenericDao<Edition>{
     public List<Edition> findByName(String name) {
         Query query = getCurrentSession().createQuery("FROM Edition WHERE name = :name");
         List<Edition> editions = query.setParameter("name", name).list();
-        
+
         return editions;
     }
     

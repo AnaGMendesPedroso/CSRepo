@@ -39,7 +39,7 @@ public class ConferenceDao extends GenericDao<Conference>{
     @Override
     public List<Conference> findAll() {
         List<Conference> conferences = getCurrentSession().createQuery("FROM Conference ORDER BY id_conference ASC").list();
-        
+ 
         return conferences;
     }
 

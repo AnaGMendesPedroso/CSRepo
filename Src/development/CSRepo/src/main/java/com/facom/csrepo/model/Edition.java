@@ -6,6 +6,7 @@
 package com.facom.csrepo.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -22,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -42,6 +44,7 @@ public class Edition implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_edition")
     private Integer id;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "year_edition")
@@ -50,17 +53,24 @@ public class Edition implements Serializable {
     @ManyToOne
     @JoinColumn(name="conference_edition")
     private Conference conference;
+    
+//    @JoinColumn(name = "conference_edition", referencedColumnName = "id_conference")
+//    @ManyToOne(optional = false)
+//    private Conference conferenceEdition;
+//
+//    @JoinColumn(name = "publisher_edition", referencedColumnName = "id_publisher")
+
     @ManyToOne
     @JoinColumn(name="publisher_edition")
     private Publisher publisher;
-    
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_edition")
     private List<Paper> papers;
 
-    public Edition(){}
+    public Edition() {}
 
-    public Edition(int year){
+    public Edition(int year) {
         this.year = year;
     }
 
@@ -87,8 +97,8 @@ public class Edition implements Serializable {
     public void setPapers(List<Paper> papers) {
         this.papers = papers;
     }
-    
-    public void addPaper(Paper paper){
+
+    public void addPaper(Paper paper) {
         this.papers.add(paper);
     }
 
@@ -132,5 +142,4 @@ public class Edition implements Serializable {
     public String toString() {
         return "com.facom.csrepo.model.Edition[ id=" + id + " ]";
     }
-    
 }

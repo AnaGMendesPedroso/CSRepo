@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template/layoutBase.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="CSRepo"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <p:fieldset legend="What is CSRepo?">
+                <h:outputText value="CSRepo is a metadata repository for computer science conferences." />
+
+                <h3>How can you use CSRepo?</h3>
+                <h:outputText value="CSRepo will help you get the metadata of papers that you want to reference 
+                              in your articles. For that you can use 'Conferences', 'Papers', 'Authors' and 
+                              'Categories' spaces to find the metadata. You can also use the 'search spacce' to
+                              search for specific words and CSRepo will return all related results with what you
+                              searched." />
+
+                <h3>How can I report an error?</h3>
+                <h:outputText value="You can use the 'Report Error' space, we appreciate any help :)" />
+
+            </p:fieldset>
+        </ui:define>
+
+    </ui:composition>
+</html>
+
