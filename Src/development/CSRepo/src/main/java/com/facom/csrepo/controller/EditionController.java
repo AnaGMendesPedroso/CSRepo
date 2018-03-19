@@ -28,7 +28,9 @@ public class EditionController implements Serializable {
 
     public List<Edition> getItems() {
         if (items == null) {
+            editionDao.openCurrentSession();
             items = editionDao.findAll();
+            editionDao.closeCurrentSession();
         }
         
         return items;

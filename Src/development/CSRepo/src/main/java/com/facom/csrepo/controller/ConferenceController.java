@@ -23,7 +23,10 @@ public class ConferenceController implements Serializable {
     
     public ConferenceController() {
         conferenceDao = new ConferenceDao();
+        
+        conferenceDao.openCurrentSession();
         items = conferenceDao.findAll();
+        conferenceDao.closeCurrentSession();
     }
 
     public Conference getSelected() {

@@ -49,11 +49,12 @@ public class UpdateWrapper {
     public Date getNextMonth(){
         Calendar nextMonth = Calendar.getInstance();
         nextMonth.set(Calendar.MONTH, nextMonth.get(Calendar.MONTH)+1);
-        nextMonth.set(Calendar.DAY_OF_MONTH, 0);
+        nextMonth.set(Calendar.DAY_OF_MONTH, 1);
         nextMonth.set(Calendar.HOUR, 0);
         nextMonth.set(Calendar.MINUTE, 0);
         nextMonth.set(Calendar.SECOND, 0);
         Date date = nextMonth.getTime();
+        System.out.println(nextMonth.getTime());
         
         return date;
     }

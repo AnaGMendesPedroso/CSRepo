@@ -66,7 +66,9 @@ public class PaperController implements Serializable {
     
     public List<Paper> getItems() {
         if (items == null) {
+            paperDao.openCurrentSession();
             items = paperDao.findAll();
+            paperDao.closeCurrentSession();
         }
 
         return items;
