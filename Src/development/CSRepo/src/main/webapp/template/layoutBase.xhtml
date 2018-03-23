@@ -26,8 +26,8 @@
                 <h:form id="menuForm">
                     <p:menubar>
                         <p:menuitem value="Conferences" outcome="/conference/List.xhtml" />
-                        <p:menuitem value="Editions" outcome="/edition/List.xhtml" />
-                        <p:menuitem value="Papers" outcome="/paper/List.xhtml" />
+                        <p:menuitem value="Editions" actionListener="#{editionController.setSelectedConference(null)}" outcome="/edition/List.xhtml" />
+                        <p:menuitem value="Papers" actionListener="#{paperController.setSelectedEdition(null)}" outcome="/paper/List.xhtml" />
                     </p:menubar>
                 </h:form>
             </p:layoutUnit>

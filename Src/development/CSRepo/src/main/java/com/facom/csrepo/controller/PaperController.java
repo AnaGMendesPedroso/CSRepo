@@ -1,5 +1,6 @@
 package com.facom.csrepo.controller;
 
+import com.facom.csrepo.model.Edition;
 import com.facom.csrepo.model.Paper;
 import com.facom.csrepo.model.dao.PaperDao;
 import com.facom.csrepo.util.JsfUtil;
@@ -11,9 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -22,16 +24,17 @@ import org.primefaces.model.StreamedContent;
  * @author karolina
  */
 @ManagedBean(name = "paperController")
-@RequestScoped
+@SessionScoped
 public class PaperController implements Serializable {
 
     private String content;
     private PaperDao paperDao = null;
     private StreamedContent file = null;
 
-    @ManagedProperty(value = "#{editionController.selected.papers}")
+    private Edition selectedEdition;
+
     private List<Paper> items = null;
-    
+
     private Paper selected;
     private List<Paper> selectedPapers = new ArrayList<>();
     private List<Paper> filteredPapers = new ArrayList<>();
@@ -47,7 +50,7 @@ public class PaperController implements Serializable {
     public void setSelected(Paper selected) {
         this.selected = selected;
     }
-    
+
     public List<Paper> getSelectedPapers() {
         return selectedPapers;
     }
@@ -63,13 +66,16 @@ public class PaperController implements Serializable {
     public void setFilteredPapers(List<Paper> filteredPapers) {
         this.filteredPapers = filteredPapers;
     }
-    
+
     public List<Paper> getItems() {
-        if (items == null) {
-            paperDao.openCurrentSession();
+        
+        paperDao.openCurrentSession();
+        if (selectedEdition != null) {
+            items = paperDao.findByEditionId(selectedEdition.getId());
+        } else {
             items = paperDao.findAll();
-            paperDao.closeCurrentSession();
         }
+        paperDao.closeCurrentSession();
 
         return items;
     }
@@ -78,12 +84,20 @@ public class PaperController implements Serializable {
         this.items = items;
     }
 
+    public Edition getSelectedEdition() {
+        return selectedEdition;
+    }
+
+    public void setSelectedEdition(Edition selectedEdition) {
+        this.selectedEdition = selectedEdition;
+    }
+
     public String getContent() {
         content = "";
         if (selectedPapers.isEmpty()) {
             selectedPapers = items;
         }
-        
+
         for (Paper p : selectedPapers) {
             content = "@article{" + p.getId() + ",\n"
                     + "author = ";

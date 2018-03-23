@@ -1,24 +1,29 @@
 package com.facom.csrepo.controller;
 
+import com.facom.csrepo.model.Conference;
 import com.facom.csrepo.model.Edition;
 import com.facom.csrepo.model.dao.EditionDao;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author karolina
  */
-@ManagedBean(name = "editionController")
-@RequestScoped
+@ManagedBean(name = "editionController", eager = true)
+@SessionScoped
 public class EditionController implements Serializable {
 
     private EditionDao editionDao = null;
 
-    @ManagedProperty(value = "#{conferenceController.selected.editions}")
+    private Conference selectedConference;
+
     private List<Edition> items = null;
     private Edition selected;
 
@@ -27,12 +32,14 @@ public class EditionController implements Serializable {
     }
 
     public List<Edition> getItems() {
-        if (items == null) {
-            editionDao.openCurrentSession();
+        editionDao.openCurrentSession();
+        if (selectedConference != null) {
+            items = editionDao.findByConferenceId(selectedConference.getId());
+        } else {
             items = editionDao.findAll();
-            editionDao.closeCurrentSession();
         }
-        
+        editionDao.closeCurrentSession();
+
         return items;
     }
 
@@ -46,5 +53,13 @@ public class EditionController implements Serializable {
 
     public void setSelected(Edition selected) {
         this.selected = selected;
+    }
+
+    public Conference getSelectedConference() {
+        return selectedConference;
+    }
+
+    public void setSelectedConference(Conference selectedConference) {
+        this.selectedConference = selectedConference;
     }
 }

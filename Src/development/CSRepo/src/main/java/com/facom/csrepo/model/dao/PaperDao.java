@@ -58,4 +58,11 @@ public class PaperDao extends GenericDao<Paper>{
         
         return papers;
     }
+    
+    public List<Paper> findByEditionId(int editionId) {
+        Query query = getCurrentSession().createQuery("FROM Paper WHERE edition_paper = :id");
+        List<Paper> papers  = query.setParameter("id", editionId).list();
+        
+        return papers;
+    }
 }

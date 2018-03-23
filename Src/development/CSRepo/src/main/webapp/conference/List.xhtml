@@ -8,7 +8,6 @@
 
     <ui:composition template="/template/layoutBase.xhtml">
 
-
         <ui:define name="title">
             <h:outputText value="Conferences"></h:outputText>
         </ui:define>
@@ -50,8 +49,7 @@
                         </p:column>
 
                         <p:column style="width:32px;text-align: center">
-                            <p:commandButton icon="ui-icon-search" action="/edition/List?faces-redirect=true">
-                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-search" actionListener="#{editionController.setSelectedConference(item)}" action="/edition/List?faces-redirect=true" />
                         </p:column>
 
                         <f:facet name="footer">

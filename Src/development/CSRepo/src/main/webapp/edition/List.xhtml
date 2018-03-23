@@ -45,11 +45,11 @@
                             <h:outputText value=""/>
                         </p:column>
 
-                        <p:column style="width:150px;text-align: center">
+                        <p:column style="width:150px; text-align: center; vertical-align: central;">
                             <f:facet name="header">
                                 <h:outputText value="Metadata Link"/>
                             </f:facet>
-                            <p:commandButton value="Papers Metadata" action="/paper/List?faces-redirect=true" />
+                            <p:commandButton value="Papers Metadata" actionListener="#{paperController.setSelectedEdition(item)}" action="/paper/List?faces-redirect=true" />
                         </p:column>
 
                         <f:facet name="footer">

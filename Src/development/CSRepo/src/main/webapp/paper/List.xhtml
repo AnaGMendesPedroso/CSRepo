@@ -15,7 +15,7 @@
         <ui:define name="body">
 
             <h:form>
-                <p:confirmDialog id="deleteConfirmDialog" message="Are you sure you want to export all metadata?"
+                <p:confirmDialog id="downloadConfirmDialog" message="Are you sure you want to export all metadata?"
                                  header="Export metadata"
                                  widgetVar="downloadConfirmation">
 
@@ -51,7 +51,7 @@
                                  rowKey="#{item.id}"
                                  widgetVar="paperTable"
                                  rows="15"
-                                 emptyMessage="No conferences found with given criteria"
+                                 emptyMessage="No papers found with given criteria"
                                  filteredValue="#{paperController.filteredPapers}"
                                  style="margin-bottom:0"
                                  >

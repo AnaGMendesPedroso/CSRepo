@@ -46,6 +46,9 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/csrepo</property>
     <property name="hibernate.connection.username">score</property>
     <property name="hibernate.connection.password">csrepo2018</property>
+    <property name="show_sql">true</property>
+    <property name="format_sql">true</property>
+    
     <mapping class="com.facom.csrepo.model.Author"/>
     <mapping class="com.facom.csrepo.model.Conference"/>
     <mapping class="com.facom.csrepo.model.Edition"/>

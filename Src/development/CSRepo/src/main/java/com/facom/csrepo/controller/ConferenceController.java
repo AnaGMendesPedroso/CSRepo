@@ -4,15 +4,16 @@ import com.facom.csrepo.model.Conference;
 import com.facom.csrepo.model.dao.ConferenceDao;
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author karolina
  */
-@ManagedBean(name = "conferenceController")
-@RequestScoped
+@ManagedBean(name = "conferenceController", eager = true)
+@SessionScoped
 public class ConferenceController implements Serializable {
 
     private ConferenceDao conferenceDao = null;
@@ -20,10 +21,13 @@ public class ConferenceController implements Serializable {
     private Conference selected;
     private List<Conference> items = null;
     private List<Conference> filteredConferences = null;
-    
+
     public ConferenceController() {
         conferenceDao = new ConferenceDao();
-        
+    }
+
+    @PostConstruct
+    public void init() {
         conferenceDao.openCurrentSession();
         items = conferenceDao.findAll();
         conferenceDao.closeCurrentSession();
@@ -36,7 +40,7 @@ public class ConferenceController implements Serializable {
     public void setSelected(Conference selected) {
         this.selected = selected;
     }
-    
+
     public List<Conference> getFilteredConferences() {
         return filteredConferences;
     }
@@ -44,12 +48,8 @@ public class ConferenceController implements Serializable {
     public void setFilteredConferences(List<Conference> filteredConferences) {
         this.filteredConferences = filteredConferences;
     }
-    
-    public List<Conference> getItems() {
-        if (items == null) {
-            items = conferenceDao.findAll();
-        }
 
+    public List<Conference> getItems() {
         return items;
     }
 }
