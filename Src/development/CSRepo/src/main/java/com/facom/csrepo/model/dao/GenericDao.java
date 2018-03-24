@@ -18,68 +18,71 @@ import org.hibernate.cfg.Configuration;
  * @param <T>
  */
 public abstract class GenericDao<T> {
-    
+
     private Session currentSession;
-    
+    private static SessionFactory sessionFactory;
+
     private Transaction currentTransaction;
-    
-    public Session openCurrentSession(){
+
+    public Session openCurrentSession() {
         currentSession = getSessionFactory().openSession();
-        
+
         return currentSession;
     }
-    
-    public Session openCurrentSessionWithTransaction(){
+
+    public Session openCurrentSessionWithTransaction() {
         currentSession = getSessionFactory().openSession();
         currentTransaction = currentSession.beginTransaction();
         return currentSession;
     }
-    
-    public void closeCurrentSession(){
+
+    public void closeCurrentSession() {
         currentSession.close();
     }
-    
-    public void closeCurrentSessionWithTransaction(){
+
+    public void closeCurrentSessionWithTransaction() {
         currentTransaction.commit();
         currentSession.close();
     }
-    
-    private static SessionFactory getSessionFactory(){
-        Configuration config = new Configuration().configure("hibernate.cfg.xml");
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(config.getProperties());
-        
-        SessionFactory sessionFactory = config.buildSessionFactory(builder.build());
+
+    private static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            Configuration config = new Configuration().configure("hibernate.cfg.xml");
+            StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(config.getProperties());
+
+            sessionFactory = config.buildSessionFactory(builder.build());
+        }
         
         return sessionFactory;
     }
-    
-    public Session getCurrentSession(){
+
+    public Session getCurrentSession() {
         return currentSession;
     }
-    
+
     public void setCurrentSession(Session currentSession) {
         this.currentSession = currentSession;
     }
-            
+
     public Transaction getCurrentTransaction() {
         return currentTransaction;
     }
-    
+
     public void setCurrentTransaction(Transaction currentTransaction) {
         this.currentTransaction = currentTransaction;
     }
 
     public abstract void insert(T t);
-    
+
     public abstract void delete(T t);
-    
+
     public abstract void update(T t);
-    
+
     public abstract void deleteById(Integer id);
-    
+
     public abstract List<T> findAll();
-    
+
     public abstract T findById(Integer id);
-    
-    public abstract List<T> findByName(String name);    
+
+    public abstract List<T> findByName(String name);
 }

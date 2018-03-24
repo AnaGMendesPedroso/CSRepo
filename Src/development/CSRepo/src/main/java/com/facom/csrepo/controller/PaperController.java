@@ -12,10 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -24,7 +22,7 @@ import org.primefaces.model.StreamedContent;
  * @author karolina
  */
 @ManagedBean(name = "paperController")
-@SessionScoped
+@RequestScoped
 public class PaperController implements Serializable {
 
     private String content;
@@ -94,7 +92,7 @@ public class PaperController implements Serializable {
 
     public String getContent() {
         content = "";
-        if (selectedPapers.isEmpty()) {
+        if ((selectedEdition != null) && (selectedPapers.isEmpty())) {
             selectedPapers = items;
         }
 
